@@ -1,0 +1,20 @@
+.avatar{
+    margin: auto;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.iconos{
+    padding-right: 0.5rem;
+}
+
+ion-button{
+    span{
+        text-align: left;
+        width: 100%;
+    }
+}
+
+.button-inner{
+    flex-flow: column;
+}
