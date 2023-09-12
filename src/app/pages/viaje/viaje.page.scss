@@ -9,3 +9,29 @@
   ion-modal {
     --height: auto;
   }
+
+.custom-modal {
+  height: auto;
+
+  position: absolute;
+  
+}
+
+
+
+.div-fondo {
+  position: fixed; /* Fija el div en la ventana gráfica */
+  bottom: 0; /* Lo coloca en la parte inferior de la página */
+  width: 100%; /* Ajusta el ancho al 100% del ancho de la ventana gráfica */
+}
+
+.div-imagen {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-content {
+  overflow: hidden;
+}

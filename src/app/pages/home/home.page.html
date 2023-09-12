@@ -1,57 +1,48 @@
 <ion-header>
-  <ion-toolbar>
 
-    <ion-title id="header-home">
-      Viajes
-    </ion-title>
-  </ion-toolbar>
+
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <div>
+    <h3 style="display: inline-block;" class="ion-margin-end">Solicitar viaje</h3> 
+    <ion-icon name="car-sport-outline" size="large" style="margin: 0;"></ion-icon>
+
+  </div>
+
   <ion-searchbar show-clear-button="always" value="Destino"></ion-searchbar>
-
-
   <ion-list>
     <ion-item [button]="true" (click)="irViaje()">
-
-
       <ion-icon name="location-sharp" slot="start" class="ion-margin-end"></ion-icon>
       <ion-label>
         <h2>#El Retamo 4248</h2>
-        <div style="display: inline">
-          
-          <p> Por: Connor Smith</p>
-
-        </div>
-
+        <p>Por: Connor Smith</p>
       </ion-label>
     </ion-item>
+
     <ion-item [button]="true" (click)="irViaje()">
-      <ion-avatar slot="start">
-        <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
-      </ion-avatar>
+      <ion-icon name="location-sharp" slot="start" class="ion-margin-end"></ion-icon>
       <ion-label>
         <h2>#Los copihues 5648</h2>
-        <p>Daniel Smith/p>
+        <p>Por: Daniel Contreras</p>
       </ion-label>
     </ion-item>
+
     <ion-item [button]="true" (click)="irViaje()">
-      <ion-avatar slot="start">
-        <ion-img src="https://i.pravatar.cc/300?u=d"></ion-img>
-      </ion-avatar>
+      <ion-icon name="location-sharp" slot="start" class="ion-margin-end"></ion-icon>
       <ion-label>
         <h2>#Av Manuel Rodriguez 560</h2>
-        <p>Greg Smith</p>
+        <p>Por: Greg Smith</p>
       </ion-label>
     </ion-item>
+
     <ion-item [button]="true" (click)="irViaje()">
-      <ion-avatar slot="start">
-        <ion-img src="https://i.pravatar.cc/300?u=e"></ion-img>
-      </ion-avatar>
+      <ion-icon name="location-sharp" slot="start" class="ion-margin-end"></ion-icon>
       <ion-label>
         <h2>#Av Los Carrera 960</h2>
-        <p>Zoey Smith</p>
+        <p>Por: Zoey Smith</p>
       </ion-label>
     </ion-item>
+
   </ion-list>
 </ion-content>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -8,14 +9,14 @@ import { ModalController } from '@ionic/angular';
 })
 export class ViajePage implements OnInit {
 
-  constructor(private modalController: ModalController) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
 
   }
   
   onClick(){
-    
+    this.router.navigate(["recorrido"])
   }
   
 }
