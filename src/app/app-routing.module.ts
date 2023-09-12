@@ -44,6 +44,14 @@ const routes: Routes = [
   },
 
 
+  {
+    path: 'crear-viaje',
+    loadChildren: () => import('./pages/crear-viaje/crear-viaje.module').then( m => m.CrearViajePageModule)
+  },
+  {
+    path: 'conductor-viaje',
+    loadChildren: () => import('./pages/conductor-viaje/conductor-viaje.module').then( m => m.ConductorViajePageModule)
+  },
 ];
 
 @NgModule({

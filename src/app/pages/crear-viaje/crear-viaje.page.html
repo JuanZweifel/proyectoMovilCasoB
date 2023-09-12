@@ -1,0 +1,29 @@
+<ion-content class="ion-padding">
+  <ion-fab-button (click)="onClick()">
+    <ion-icon name="arrow-back"></ion-icon>
+  </ion-fab-button>
+  <h3>Crear viaje</h3>
+  <form #miFormulario="ngForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Lugar de partida" required type="text" aria-label="Lugar de partida" name="inicio" [(ngModel)]="viaje.partida" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Lugar de destino" required type="text" aria-label="Lugar de destino" name="destino" [(ngModel)]="viaje.destino" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Patente vehiculo" required type="text" aria-label="Patente vehiculo" name="patente" [(ngModel)]="viaje.patente" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Cantidad de asientos" required type="number" aria-label="Cantidad de asientos" name="asientos" [(ngModel)]="viaje.asientos" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Tarifa" required type="number" aria-label="Tarifa" name="tarifa" [(ngModel)]="viaje.tarifa"></ion-input>
+    </ion-item>
+    <!--  <ion-button block color="primary" type="submit" [disabled]="loginForm.invalid">
+      Login
+    </ion-button> -->
+    <ion-button expand="full" color="primary" type="submit" class="ion-padding" [disabled]="miFormulario.invalid">
+      Crear viaje
+    </ion-button>
+  </form>
+</ion-content>
