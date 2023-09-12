@@ -17,4 +17,8 @@ export class PerfilPage implements OnInit {
   {
     this.router.navigate(['/'+ruta])
   }
+
+  logout() {
+    this.router.navigate(["login"])
+  }
 }

@@ -14,6 +14,10 @@ export class ViajePage implements OnInit {
   ngOnInit() {
 
   }
+
+  volver(){
+    this.router.navigate(["tabs/home"])
+  }
   
   onClick(){
     this.router.navigate(["recorrido"])

@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
 
 
   onSubmit() {
-    if (this.usuario.username == "ald.arroyo@duocuc.cl" && this.usuario.password == "123") {
+    if (this.usuario.username == "admin@" && this.usuario.password == "123") {
       this.router.navigate(['tabs/home'])
     }
     else {
