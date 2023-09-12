@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ofrecer-viaje',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OfrecerViajePage implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
 
+  onClick(ruta:string) 
+  {
+    this.router.navigate(['/'+ruta])
+  }
 }
