@@ -1,24 +1,3 @@
-.block {
-    width: 100%;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  ion-modal {
-    --height: auto;
-  }
-
-.custom-modal {
-  height: auto;
-
-  position: absolute;
-  
-}
-
-
-
 .div-fondo {
   position: fixed; /* Fija el div en la ventana gráfica */
   bottom: 0; /* Lo coloca en la parte inferior de la página */

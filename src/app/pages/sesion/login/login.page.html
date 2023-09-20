@@ -1,43 +1,35 @@
 <ion-header>
-  
+  <div class="login-header ion-padding">
+    <img src="https://logospng.org/download/uber/logo-uber-icone-4096.png" alt="" class="logo-img">
+  </div>
 </ion-header>
 
 <ion-content>
-      
-      <div class="ion-padding" style="text-align: center;">
-        <h3>Iniciar Sesión</h3>
-        <img src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png" alt="" style="width: 40%;" class="ion-margin-bottom">
-        <form #miFormulario="ngForm" (ngSubmit)="onSubmit()">
+
+  <div class="ion-padding contenido">
+    <form #miFormulario="ngForm" (ngSubmit)="onSubmit()" class="formulario">
+      <h3>Iniciar Sesión</h3>
+      <ion-item class="ion-margin-bottom">
+        <ion-input labelPlacement="floating" label="E-mail" required type="email" aria-label="Email" name="email"
+          [(ngModel)]="usuario.username" class="custom "></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input labelPlacement="floating" label="Password" required type="password" aria-label="password"
+          name="password" [(ngModel)]="usuario.password" style="border-radius: 20px;"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" type="submit" class="ion-padding" [disabled]="miFormulario.invalid" shape="round">
+        Iniciar Sesión
+      </ion-button>
+    </form>
+    <div class="centro">
+      <p expand="block">No tienes cuenta?</p>
+      <ion-button (click)="onClick()" expand="block" fill="clear">
+        Crear cuenta
+      </ion-button>
+    </div>
+  </div>
 
 
-          
-          <ion-item class="ion-margin-bottom" fill="solid" shape="round">
-            <ion-input labelPlacement="floating" label="E-mail" required type="email" aria-label="Email" name="email"
-              [(ngModel)]="usuario.username" class="custom"></ion-input>
-          </ion-item>
-
-
-
-
-
-          <ion-item class="ion-margin-top" fill="solid" shape="round">
-            <ion-input labelPlacement="floating" label="Password" required type="password" aria-label="password"
-              name="password" [(ngModel)]="usuario.password" style="border-radius: 20px;"></ion-input>
-          </ion-item>
-          <!--  <ion-button block color="primary" type="submit" [disabled]="loginForm.invalid">
-          Login
-        </ion-button> -->
-          <ion-button expand="full" color="primary" type="submit" class="ion-padding" [disabled]="miFormulario.invalid" shape="round">
-            Iniciar Sesión
-          </ion-button>
-        </form>
-        <p routerLinkActive="home">No tienes cuenta?</p>
-        <ion-button (click)="onClick()" expand="block" fill="clear" shape="round">
-          Crear cuenta
-        </ion-button>
-
-        <ion-nav-link routerDirection="back" component="nav-profile"></ion-nav-link>
-      </div>
-
-  
 </ion-content>
