@@ -50,8 +50,12 @@ export class LoginPage implements OnInit {
 
   }
 
-  onClick() {
+  crearCuenta() {
     this.router.navigate(["signup"])
+  }
+
+  restaurarContrasena() {
+    this.router.navigate(["contrasena"])
   }
 
 }

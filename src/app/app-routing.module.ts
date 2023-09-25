@@ -52,7 +52,11 @@ const routes: Routes = [
   {
     path: 'conductor-viaje',
     loadChildren: () => import('./pages/conductor-viaje/conductor-viaje.module').then( m => m.ConductorViajePageModule)
+  },  {
+    path: 'contrasena',
+    loadChildren: () => import('./pages/sesion/contrasena/contrasena.module').then( m => m.ContrasenaPageModule)
   },
+
 ];
 
 @NgModule({
