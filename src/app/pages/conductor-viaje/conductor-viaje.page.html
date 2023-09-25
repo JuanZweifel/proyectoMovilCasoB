@@ -23,7 +23,7 @@
             <h2>John Doe</h2>
             <p>Connor Smith</p>
           </ion-label>
-          <ion-button expand="block" fill="solid" shape="round" color="tertiary">
+          <ion-button (click)="presentAlert()" expand="block" fill="solid" shape="round" color="tertiary">
             Cancelar
           </ion-button>
         </ion-item>
@@ -35,13 +35,19 @@
             <h2>John Doe</h2>
             <p>Connor Smith</p>
           </ion-label>
-          <ion-button expand="block" fill="solid" shape="round" color="tertiary">
+          <ion-button (click)="presentAlert()" expand="block" fill="solid" shape="round" color="tertiary">
             Cancelar
           </ion-button>
         </ion-item>
         
       </ion-list>
-        <ion-button (click)="onClick()" expand="full" shape="round" color="danger" class="cancelar">
-          Cancelar viaje
-        </ion-button>
+      <ion-button id="present-alert" expand="full" shape="round" color="danger" class="cancelar">
+        Cancelar viaje
+      </ion-button>
+
+      <ion-alert
+        trigger="present-alert"
+        header="¿Estar seguro?"
+        [buttons]="alertButtons"
+      ></ion-alert>
 </ion-content>
