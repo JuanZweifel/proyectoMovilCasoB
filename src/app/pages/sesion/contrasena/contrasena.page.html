@@ -1,0 +1,33 @@
+<ion-header>
+  <div class="login-header ion-padding">
+    <img src="https://logospng.org/download/uber/logo-uber-icone-4096.png" alt="" class="logo-img">
+  </div>
+</ion-header>
+
+
+<ion-content>
+  <ion-fab-button class="ion-padding" (click)="volver()">
+    <ion-icon name="arrow-back"></ion-icon>
+  </ion-fab-button>
+  
+  <div class="ion-padding contenido ion-margin-top">
+    <form #miFormulario="ngForm" (ngSubmit)="onSubmit()" class="formulario">
+      <h3>Recuperar Cuenta</h3>
+  
+
+      <ion-item class="ion-margin-bottom ion-margin-top">
+        <ion-input labelPlacement="floating" label="E-mail" required type="email" aria-label="Email" name="email"
+          [(ngModel)]="usuario.mail" class="custom "></ion-input>
+          <ion-icon name="mail-outline"></ion-icon>
+      </ion-item>
+
+      <ion-button expand="full" type="submit" class="ion-padding" [disabled]="miFormulario.invalid" shape="round">
+        Enviar
+      </ion-button>
+
+    </form>
+  </div>
+
+
+
+</ion-content>
