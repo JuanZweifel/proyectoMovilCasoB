@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { IonModal, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-viaje',
@@ -9,10 +9,19 @@ import { ModalController } from '@ionic/angular';
 })
 export class ViajePage implements OnInit {
 
-  constructor(private router: Router) { }
+
+  constructor(private router: Router, private modalController: ModalController) { }
 
   ngOnInit() {
 
+  }
+  
+  ionViewWillLeave() {
+    this.cerrarModal();
+  }
+
+  cerrarModal() {
+    this.modalController.dismiss();
   }
 
   volver(){
@@ -24,4 +33,6 @@ export class ViajePage implements OnInit {
   }
   
 }
+  
+
 

@@ -15,51 +15,61 @@
       src="https://cdn.discordapp.com/attachments/1104853389877190766/1150941147150155816/Screenshot_20230911-204801.png"
       alt="">
   </div>
+  
 
-  <div class="div-fondo">
-    <ion-list>
-      <ion-item>
-        <ion-label>
-          <h2>Destino: #Los copihues 5648</h2>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>
-          <h2>Tarifa: $4.000</h2>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>
-          <h2>Asientos disponibles: 3</h2>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-select placeholder="Selecciona">
-          <div slot="label">Cantidad de Asientos:</div>
-          <ion-select-option value="apple">1</ion-select-option>
-          <ion-select-option value="banana">2</ion-select-option>
-          <ion-select-option value="orange">3</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-avatar slot="start">
-          <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h2>Conductor</h2>
-          <p>Connor Smith</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-button (click)="onClick()" expand="block" shape="round" class="ion-padding" style="width: 100%;">
-          Pagar
-        </ion-button>
-      </ion-item>
-    </ion-list>
-  </div>
-
-
+  <ion-modal
+      #modal
+      [isOpen]="true"
+      [initialBreakpoint]="0.25"
+      [breakpoints]="[0.25, 0.5, 0.75]"
+      [backdropDismiss]="false"
+      [backdropBreakpoint]="0.5"
+    >
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <ion-item>
+              <ion-label>
+                <h2>Destino: #Los copihues 5648</h2>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <h2>Tarifa: $4.000</h2>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <h2>Asientos disponibles: 3</h2>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-select placeholder="Selecciona">
+                <div slot="label">Cantidad de Asientos:</div>
+                <ion-select-option value="apple">1</ion-select-option>
+                <ion-select-option value="banana">2</ion-select-option>
+                <ion-select-option value="orange">3</ion-select-option>
+              </ion-select>
+            </ion-item>
+      
+            <ion-item>
+              <ion-avatar slot="start">
+                <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2>Conductor</h2>
+                <p>Connor Smith</p>
+              </ion-label>
+            </ion-item>
+      
+            <ion-item>
+              <ion-button (click)="onClick()" expand="block" shape="round" class="ion-padding" style="width: 100%;">
+                Pagar
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
 
 </ion-content>
