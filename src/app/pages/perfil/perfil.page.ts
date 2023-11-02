@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-perfil',
@@ -7,18 +8,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-
-  constructor(private router:Router) { }
+  user:any
+  constructor(private router: Router ,private authenticationService: AuthenticationService) {
+    this.user = authenticationService.getProfile();
+  }
 
   ngOnInit() {
+
   }
 
-  onClick(ruta:string)
-  {
-    this.router.navigate(['/'+ruta])
+
+
+  async logout(){
+    this.authenticationService.signOut().then(()=>{
+      this.router.navigate(['login']).catch((error)=>{
+        console.log(error);
+      })
+    })
   }
 
-  logout() {
-    this.router.navigate(["login"])
-  }
+
 }
