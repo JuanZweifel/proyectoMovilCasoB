@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ConexionGuard } from './guards/conexion.guard';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
+    canActivate:[ConexionGuard]
   },
   {
     path: '',
@@ -13,11 +15,12 @@ const routes: Routes = [
   },
   {
     path: 'ofrecer-viaje',
-    loadChildren: () => import('./pages/ofrecer-viaje/ofrecer-viaje.module').then( m => m.OfrecerViajePageModule)
+    loadChildren: () => import('./pages/ofrecer-viaje/ofrecer-viaje.module').then( m => m.OfrecerViajePageModule),
+    canActivate:[ConexionGuard]
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule),
   },
   {
     path: 'perfil',
@@ -29,7 +32,7 @@ const routes: Routes = [
   },
   {
     path: 'viaje',
-    loadChildren: () => import('./pages/viaje/viaje.module').then( m => m.ViajePageModule)
+    loadChildren: () => import('./pages/viaje/viaje.module').then( m => m.ViajePageModule),
   },
   {
     path: 'login',
@@ -43,8 +46,6 @@ const routes: Routes = [
     path: 'recorrido',
     loadChildren: () => import('./pages/recorrido/recorrido.module').then( m => m.RecorridoPageModule)
   },
-
-
   {
     path: 'crear-viaje',
     loadChildren: () => import('./pages/crear-viaje/crear-viaje.module').then( m => m.CrearViajePageModule)
@@ -52,7 +53,8 @@ const routes: Routes = [
   {
     path: 'conductor-viaje',
     loadChildren: () => import('./pages/conductor-viaje/conductor-viaje.module').then( m => m.ConductorViajePageModule)
-  },  {
+  },
+  {
     path: 'contrasena',
     loadChildren: () => import('./pages/sesion/contrasena/contrasena.module').then( m => m.ContrasenaPageModule)
   },
