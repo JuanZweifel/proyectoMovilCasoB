@@ -19,6 +19,7 @@ export class ConexionGuard implements CanActivate {
         return true;
       } else {
         this.presentAlert("Tiene que tener conexion a internet para entrar a este apartado")
+        //De momento esta asi ya que la ruta de defecto tras logearse es tabs/home
         return this.router.navigate(['tabs/perfil']);
       }
     }
@@ -35,7 +36,6 @@ export class ConexionGuard implements CanActivate {
       message: message,
       buttons: ['OK'],
       backdropDismiss: false,
-
     });
 
     await alert.present();

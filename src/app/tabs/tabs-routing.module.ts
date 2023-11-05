@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, CanActivate } from '@angular/router';
 
 import { TabsPage } from './tabs.page';
+import { ConexionGuard } from '../guards/conexion.guard';
 
 const routes: Routes = [
   {
@@ -10,11 +11,13 @@ const routes: Routes = [
     children: [
       {
         path: 'ofrecer-viaje',
-        loadChildren: () => import('../pages/ofrecer-viaje/ofrecer-viaje.module').then( m => m.OfrecerViajePageModule)
+        loadChildren: () => import('../pages/ofrecer-viaje/ofrecer-viaje.module').then( m => m.OfrecerViajePageModule),
+        canActivate:[ConexionGuard]
       },
       {
         path: 'home',
-        loadChildren: () => import('../pages/home/home.module').then( m => m.HomePageModule)
+        loadChildren: () => import('../pages/home/home.module').then( m => m.HomePageModule),
+        canActivate:[ConexionGuard]
       },
       {
         path: 'perfil',

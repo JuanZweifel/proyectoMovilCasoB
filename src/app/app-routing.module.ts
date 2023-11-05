@@ -4,27 +4,13 @@ import { ConexionGuard } from './guards/conexion.guard';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
-    canActivate:[ConexionGuard]
-  },
-  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
   {
-    path: 'ofrecer-viaje',
-    loadChildren: () => import('./pages/ofrecer-viaje/ofrecer-viaje.module').then( m => m.OfrecerViajePageModule),
-    canActivate:[ConexionGuard]
-  },
-  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule),
-  },
-  {
-    path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
   {
     path: 'prueba',
@@ -58,7 +44,6 @@ const routes: Routes = [
     path: 'contrasena',
     loadChildren: () => import('./pages/sesion/contrasena/contrasena.module').then( m => m.ContrasenaPageModule)
   },
-
 ];
 
 @NgModule({
