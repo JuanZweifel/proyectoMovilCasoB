@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-signup',
@@ -18,10 +19,12 @@ export class SignupPage implements OnInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     private toastController: ToastController,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private storage: Storage) {
 
     this.signupForm = this.formBuilder.group({
       name: ['',[Validators.required, Validators.minLength(2)]],
+      phone: ['', [Validators.required]],
       email: ['',[Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*[0-9].*).{8,}$')]]
     })
@@ -59,8 +62,19 @@ async signUP() {
     });
 
     if (user) {
+
+      let usuario={
+        name: this.signupForm.value.name,
+        phone: this.signupForm.value.phone,
+        email: this.signupForm.value.email,
+        password:this.signupForm.value.password,
+      }
+
+
+      await this.storage.set(this.signupForm.value.email, usuario);
+
       loading.dismiss();
-      this.router.navigate(['/tabs/home']);
+      this.router.navigate(['/tabs/login']);
     } else {
       console.log('Por favor, proporciona todos los valores requeridos en el formulario.');
     }

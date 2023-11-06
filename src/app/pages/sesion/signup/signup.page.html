@@ -16,6 +16,22 @@
         <ion-input formControlName="name" labelPlacement="floating" label="Nombre" required type="texto" aria-label="nombre" name="name" class="custom "></ion-input>
           <ion-icon name="person-outline"></ion-icon>
       </ion-item>
+      <div *ngIf="this.signupForm.controls['name'].touched && this.signupForm.controls['name'].invalid">
+        <ion-text color="primary" *ngIf="errorControl['name'].errors?.['required']">
+          Ingrese el nombre
+        </ion-text>
+      </div>
+
+
+      <ion-item class="ion-margin-bottom">
+        <ion-input formControlName="phone" labelPlacement="floating" label="Telefono" required type="texto" aria-label="phone" name="phone" class="custom "></ion-input>
+          <ion-icon name="person-outline"></ion-icon>
+      </ion-item>
+      <div *ngIf="this.signupForm.controls['phone'].touched && this.signupForm.controls['phone'].invalid">
+        <ion-text color="primary" *ngIf="errorControl['phone'].errors?.['required']">
+          Ingrese el numero de telefono
+        </ion-text>
+      </div>
 
 
       <ion-item class="ion-margin-bottom">
@@ -24,10 +40,10 @@
       </ion-item>
       <div *ngIf="this.signupForm.controls['email'].touched && this.signupForm.controls['email'].invalid">
         <ion-text color="primary" *ngIf="errorControl['email'].errors?.['required']">
-          email is required
+          Ingrese el correo
         </ion-text>
         <ion-text color="primary" *ngIf="errorControl['email'].errors?.['pattern']">
-          email jnvalid
+          El correo no es valido
         </ion-text>
       </div>
 
@@ -39,10 +55,10 @@
       </ion-item>
       <div *ngIf="this.signupForm.controls['password'].touched && this.signupForm.controls['password'].invalid">
         <ion-text color="primary" *ngIf="errorControl['password'].errors?.['required']">
-          password is required
+          Ingrese la contraseña
         </ion-text>
         <ion-text color="primary" *ngIf="errorControl['password'].errors?.['pattern']">
-          password jnvalid
+          La contraseña no es valida
         </ion-text>
       </div>
 

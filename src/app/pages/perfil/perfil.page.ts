@@ -11,11 +11,14 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class PerfilPage implements OnInit {
   user:any
+  datos: any;
   constructor(private router: Router ,private authenticationService: AuthenticationService, private storage: Storage) {
     this.user = authenticationService.getProfile();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.datos = await this.storage.get('sesion');
+    
     
   }
 
@@ -31,7 +34,8 @@ export class PerfilPage implements OnInit {
   }
 
   async removeUserData() {
-    await this.storage.remove('user');
+    let sesion = await this.storage.get('sesion');
+    await this.storage.remove('sesion');
   }
 
 

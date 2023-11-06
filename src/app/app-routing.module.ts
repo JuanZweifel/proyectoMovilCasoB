@@ -43,7 +43,11 @@ const routes: Routes = [
   {
     path: 'contrasena',
     loadChildren: () => import('./pages/sesion/contrasena/contrasena.module').then( m => m.ContrasenaPageModule)
+  },  {
+    path: 'modauto',
+    loadChildren: () => import('./pages/modauto/modauto.module').then( m => m.ModautoPageModule)
   },
+
 ];
 
 @NgModule({

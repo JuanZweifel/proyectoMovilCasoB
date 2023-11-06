@@ -34,11 +34,12 @@ export class LoginPage implements OnInit {
     const userData = await this.getUserData();
     if (userData && userData.email && userData.password) {
       // Si hay datos de usuario en el almacenamiento, intenta iniciar sesión automáticamente.
+      this.router.navigate(['/tabs/home']);
       this.loginForm.patchValue({
         email: userData.email,
         password: userData.password
       });
-      this.login(); // Llama al método login para iniciar sesión automáticamente.
+      //this.login(); // Llama al método login para iniciar sesión automáticamente.
     }
   }
 
@@ -79,14 +80,10 @@ export class LoginPage implements OnInit {
   
       if (user) {
 
+        let sesion = await this.storage.get(this.loginForm.value.email);
 
-        let usuario={
-          email: this.loginForm.value.email,
-          password:this.loginForm.value.password
-        }
-
-        await this.storage.set('user', usuario);
-
+        await this.storage.set('sesion', sesion);
+        
         
         loading.dismiss();
         this.router.navigate(['/tabs/home']);
