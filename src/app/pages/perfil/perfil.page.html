@@ -11,7 +11,7 @@
 <ion-list-header>Vehículo</ion-list-header>
 <ion-list *ngIf="datosCargados"> <!-- Mostrar el contenido solo cuando los datos estén cargados -->
   <div *ngIf="usuario.auto.marca">
-    <ion-item [button]="true">Marca: {{ usuario.auto.marca }}</ion-item>
+    <ion-item [button]="true">Marca: {{ usuario.auto.marca }} </ion-item>
     <ion-item [button]="true">Modelo: {{ usuario.auto.modelo }}</ion-item>
     <ion-item [button]="true">Patente: {{ usuario.auto.patente }}</ion-item>
   </div>

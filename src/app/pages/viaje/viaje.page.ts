@@ -35,6 +35,7 @@ export class ViajePage implements OnInit {
     this.viaje.asientos = this.asientos
     this.storage.set("viaje_pedido",this.viaje)
     this.router.navigate(["recorrido"])
+    
   }
   
 }

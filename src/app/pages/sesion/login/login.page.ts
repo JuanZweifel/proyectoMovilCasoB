@@ -127,7 +127,7 @@ export class LoginPage implements OnInit {
   }
 
   async getUserData() {
-    return await this.storage.get('user');
+    return await this.storage.get('sesion');
   }
 
 }

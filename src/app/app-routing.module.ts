@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ConexionGuard } from './guards/conexion.guard';
+import { LoginGuard } from './guards/login.guard'; // Importa el guard
 
 const routes: Routes = [
   {
@@ -10,15 +11,15 @@ const routes: Routes = [
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule),
+    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule),canActivate:[LoginGuard]
   },
   {
     path: 'prueba',
-    loadChildren: () => import('./pages/prueba/prueba.module').then( m => m.PruebaPageModule)
+    loadChildren: () => import('./pages/prueba/prueba.module').then( m => m.PruebaPageModule),canActivate:[LoginGuard]
   },
   {
     path: 'viaje',
-    loadChildren: () => import('./pages/viaje/viaje.module').then( m => m.ViajePageModule),
+    loadChildren: () => import('./pages/viaje/viaje.module').then( m => m.ViajePageModule),canActivate:[LoginGuard]
   },
   {
     path: 'login',
@@ -30,22 +31,23 @@ const routes: Routes = [
   },
   {
     path: 'recorrido',
-    loadChildren: () => import('./pages/recorrido/recorrido.module').then( m => m.RecorridoPageModule)
+    loadChildren: () => import('./pages/recorrido/recorrido.module').then( m => m.RecorridoPageModule),canActivate:[LoginGuard]
   },
   {
     path: 'crear-viaje',
-    loadChildren: () => import('./pages/crear-viaje/crear-viaje.module').then( m => m.CrearViajePageModule)
+    loadChildren: () => import('./pages/crear-viaje/crear-viaje.module').then( m => m.CrearViajePageModule),canActivate:[LoginGuard]
   },
   {
     path: 'conductor-viaje',
-    loadChildren: () => import('./pages/conductor-viaje/conductor-viaje.module').then( m => m.ConductorViajePageModule)
+    loadChildren: () => import('./pages/conductor-viaje/conductor-viaje.module').then( m => m.ConductorViajePageModule),canActivate:[LoginGuard]
   },
   {
     path: 'contrasena',
     loadChildren: () => import('./pages/sesion/contrasena/contrasena.module').then( m => m.ContrasenaPageModule)
-  },  {
+  },
+  {
     path: 'modauto',
-    loadChildren: () => import('./pages/modauto/modauto.module').then( m => m.ModautoPageModule)
+    loadChildren: () => import('./pages/modauto/modauto.module').then( m => m.ModautoPageModule),canActivate:[LoginGuard]
   },
 
 ];
