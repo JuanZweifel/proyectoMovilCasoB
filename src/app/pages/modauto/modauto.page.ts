@@ -16,7 +16,7 @@ export class ModautoPage implements OnInit {
 
   constructor(private router: Router, public formBuilder: FormBuilder, private storage: Storage, private alertController: AlertController) {
     this.autoForm = this.formBuilder.group({
-      patente: ['',[Validators.required, Validators.minLength(2)]],
+      patente: ['',[Validators.required]],
       marca: ['', [Validators.required]],
       modelo: ['',[Validators.required]],
     })
@@ -39,12 +39,8 @@ export class ModautoPage implements OnInit {
 
       await this.storage.set(this.sesion.email, this.usuario);
       await this.storage.set('sesion', this.usuario);
-      this.router.navigate(['tabs/perfil']);
-
-    
-
-    
-
+      this.router.navigate(['tabs/perfil']);    
+      
     console.log(this.autoForm)
 
   }

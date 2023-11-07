@@ -30,6 +30,7 @@ export class ViajePage implements OnInit {
   
   onClick(){
     this.router.navigate(["recorrido"])
+    
   }
   
 }

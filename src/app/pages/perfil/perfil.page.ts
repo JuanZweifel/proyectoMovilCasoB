@@ -18,18 +18,15 @@ export class PerfilPage implements OnInit {
   constructor(private router: Router ,private authenticationService: AuthenticationService, private storage: Storage, private alertController: AlertController) {
     this.user = authenticationService.getProfile();
   }
-
+  
+  
   async ngOnInit() {
+    
     this.sesion = await this.storage.get('sesion');
     this.usuario = await this.storage.get(this.sesion.email);
-    console.log("Sesion", this.sesion)
     this.datosCargados = true; 
   }
 
-
-  modCar(){
-
-  }
 
   async delCar(){
     this.usuario.auto.marca = "";

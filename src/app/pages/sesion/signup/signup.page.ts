@@ -54,10 +54,18 @@ async signUP() {
 
   await loading.present();
 
+  
+
   if (this.signupForm.valid) {
     const user = await this.authenticationService.registerUser(this.signupForm.value.email, this.signupForm.value.password).catch((error) => {
-      console.error(error);
-      this.presentAlert('No se pudo registrar al usuario');
+      if (error.code === 'auth/email-already-in-use') {
+        this.presentAlert('Este correo ya esta registrado')
+      }
+      else
+      {
+        this.presentAlert('No se pudo registrar al usuario');
+      }
+        
       loading.dismiss();
     });
 
@@ -100,7 +108,7 @@ async signUP() {
     const alert = await this.alertController.create({
       header: 'Alerta',
       subHeader: 'Información',
-      message: "Usuario y/o password incorrectos",
+      message: message,
       buttons: ['OK'],
       backdropDismiss: false,
 
