@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage-angular';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,6 +9,9 @@ import { Router } from '@angular/router';
 })
 export class CrearViajePage implements OnInit {
 
+  sesion: any
+
+
   viaje={
     partida:'',
     destino:'',
@@ -16,16 +20,18 @@ export class CrearViajePage implements OnInit {
     tarifa:'',
   }
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private storage:Storage) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.sesion = await this.storage.get('sesion')
   }
 
   onClick() {
     this.router.navigateByUrl('tabs/ofrecer-viaje')
   }
 
-  onSubmit() {
+  async onSubmit() {
+    await this.storage.set("viaje",this.viaje)
     this.router.navigateByUrl('conductor-viaje')
   }
 }

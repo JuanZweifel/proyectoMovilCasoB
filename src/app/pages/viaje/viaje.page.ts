@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage-angular';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonModal, ModalController } from '@ionic/angular';
@@ -9,11 +10,13 @@ import { IonModal, ModalController } from '@ionic/angular';
 })
 export class ViajePage implements OnInit {
 
+  viaje: any
+  asientos: any
 
-  constructor(private router: Router, private modalController: ModalController) { }
+  constructor(private router: Router, private modalController: ModalController, private storage:Storage) { }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    this.viaje = await this.storage.get('viaje')
   }
   
   ionViewWillLeave() {
@@ -29,6 +32,8 @@ export class ViajePage implements OnInit {
   }
   
   onClick(){
+    this.viaje.asientos = this.asientos
+    this.storage.set("viaje_pedido",this.viaje)
     this.router.navigate(["recorrido"])
   }
   

@@ -2,8 +2,15 @@
   <ion-searchbar></ion-searchbar> 
 
   <ion-img src="https://cdn.discordapp.com/attachments/1104853389877190766/1150941147150155816/Screenshot_20230911-204801.png"></ion-img>
-  <ion-button (click)="onClick('crear-viaje')" expand="block" fill="solid" shape="round" color="success">
+
+  <ion-button *ngIf="!viaje; else conViaje"  (click)="onClick('crear-viaje')" expand="block" fill="solid" shape="round" color="success">
     Crear viaje
   </ion-button>
+  <ng-template #conViaje>
+  <ion-button (click)="onClick('conductor-viaje')" expand="block" fill="solid" shape="round" color="success">
+      Volver al viaje 
+  </ion-button>
+
+  </ng-template>
 
 </ion-content>

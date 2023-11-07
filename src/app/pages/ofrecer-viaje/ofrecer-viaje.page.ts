@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage-angular';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,9 +9,12 @@ import { Router } from '@angular/router';
 })
 export class OfrecerViajePage implements OnInit {
 
-  constructor(private router:Router) { }
+  viaje: any
 
-  ngOnInit() {
+  constructor(private router:Router, private storage:Storage) { }
+
+  async ngOnInit() {
+    this.viaje = await this.storage.get('viaje')
   }
 
   onClick(ruta:string) 

@@ -1,19 +1,24 @@
 <ion-content>
+  <ion-fab slot="fixed" vertical="top" horizontal="left" class="ion-padding" (click)="volver()">
+    <ion-fab-button>
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <ion-img src="https://cdn.dribbble.com/users/914217/screenshots/4506553/media/66b3d16f627edc27b44c023e4ec40b28.gif"></ion-img>
-  <ion-list>
+  <ion-list *ngIf="viaje" >
         <ion-item>
           <ion-label>
-            <h2>Destino: #Los copihues 5648</h2>
+            <h2>Destino: #{{viaje.destino}}</h2>
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>
-            <h2>Tarifa: $4.000</h2>
+            <h2>Tarifa: ${{viaje.tarifa}}</h2>
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>Asientos disponibles:</ion-label>
-          <ion-label position="fixed">2</ion-label>
+          <ion-label position="fixed">{{viaje.asientos}}</ion-label>
         </ion-item>
         <ion-item>
           <ion-avatar slot="start">

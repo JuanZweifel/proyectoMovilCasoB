@@ -24,49 +24,46 @@
       [breakpoints]="[0.25, 0.5, 0.75]"
       [backdropDismiss]="false"
       [backdropBreakpoint]="0.5"
+      *ngIf="viaje" 
     >
       <ng-template>
-        <ion-content>
+        <ion-content >
           <ion-list>
             <ion-item>
               <ion-label>
-                <h2>Destino: #Los copihues 5648</h2>
+                <h2>Destino: #{{viaje.destino}}</h2>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                <h2>Tarifa: $4.000</h2>
+                <h2>Tarifa: ${{viaje.tarifa}}</h2>
               </ion-label>
             </ion-item>
             <ion-item>
               <ion-label>
-                <h2>Asientos disponibles: 3</h2>
+                <h2>Asientos disponibles: {{viaje.asientos}}</h2>
               </ion-label>
             </ion-item>
-            <ion-item>
-              <ion-select placeholder="Selecciona">
-                <div slot="label">Cantidad de Asientos:</div>
-                <ion-select-option value="apple">1</ion-select-option>
-                <ion-select-option value="banana">2</ion-select-option>
-                <ion-select-option value="orange">3</ion-select-option>
-              </ion-select>
-            </ion-item>
-      
+            <form #miFormulario="ngForm" (ngSubmit)="onClick()" class="formulario">
+              <ion-item class="ion-margin-bottom ion-margin-top">
+                <ion-input labelPlacement="floating" label="Numero asientos" required type="number" aria-label="asientos" name="asientos"
+                  [(ngModel)]="asientos" max="4"></ion-input>
+              </ion-item>
+
             <ion-item>
               <ion-avatar slot="start">
                 <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
               </ion-avatar>
               <ion-label>
                 <h2>Conductor</h2>
-                <p>Connor Smith</p>
+                <p></p>
               </ion-label>
             </ion-item>
-      
-            <ion-item>
-              <ion-button (click)="onClick()" expand="block" shape="round" class="ion-padding" style="width: 100%;">
-                Pagar
+              <ion-button (click)="onClick()" expand="full" type="submit" class="ion-padding" [disabled]="miFormulario.invalid" shape="round">
+                Enviar
               </ion-button>
-            </ion-item>
+            </form>
+      
           </ion-list>
         </ion-content>
       </ng-template>
