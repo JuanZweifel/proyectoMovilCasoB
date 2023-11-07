@@ -19,6 +19,7 @@ export class ConductorViajePage implements OnInit {
 
   async onClick() {
     await this.storage.remove('viaje')
+    await this.storage.remove('viaje_pedido')
     this.router.navigateByUrl("tabs/home")
   }
 
