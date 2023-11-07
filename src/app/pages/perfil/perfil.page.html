@@ -2,21 +2,36 @@
   <ion-avatar class="avatar">
     <img src="../../../assets/icon/favicon.png" />
   </ion-avatar>
-  <ion-list-header>Información personal</ion-list-header>
-  <ion-list [inset]="true">
-    <ion-item [button]="true" id="open-modal-nombre">{{ datos['name'] }}<ion-icon slot="end" name="create"></ion-icon></ion-item>
-    <ion-item [button]="true" id="open-modal-phone">{{ datos['phone'] }}<ion-icon slot="end" name="create"></ion-icon></ion-item>
-    <ion-item [button]="true" id="open-modal-email">{{ datos['email'] }}<ion-icon slot="end" name="create"></ion-icon></ion-item>
-  </ion-list>
+  <ion-list>
+  <ion-item *ngIf="usuario"> {{ usuario.name }}</ion-item>
+  <ion-item *ngIf="usuario"> {{ usuario.phone }} </ion-item>
+  <ion-item *ngIf="usuario"> {{ usuario.email }} </ion-item>
+</ion-list>
 
-  <ion-list-header>Vehiculo</ion-list-header>
-  <ion-list [inset]="true">
-    <ion-item [button]="true" id="open-modal-numero">Modelo: Alpha<ion-icon slot="end" name="create"></ion-icon></ion-item>
-    <ion-item [button]="true" id="open-modal-numero">Patente: ABCD23<ion-icon slot="end" name="create"></ion-icon></ion-item>
-  </ion-list>
+<ion-list-header>Vehículo</ion-list-header>
+<ion-list *ngIf="datosCargados"> <!-- Mostrar el contenido solo cuando los datos estén cargados -->
+  <div *ngIf="usuario.auto.marca">
+    <ion-item [button]="true">Marca: {{ usuario.auto.marca }}</ion-item>
+    <ion-item [button]="true">Modelo: {{ usuario.auto.modelo }}</ion-item>
+    <ion-item [button]="true">Patente: {{ usuario.auto.patente }}</ion-item>
+  </div>
+
+
+  <div *ngIf="usuario.auto && usuario.auto.marca; else agregarVehiculoTemplate">
+    <!-- Si tiene un vehículo con marca -->
+    <ion-item color="primary" [button]="true" (click)="addCar()">Modificar Vehículo</ion-item>
+    <ion-item color="primary" [button]="true" (click)="mostrarConfirmacion()">Eliminar Vehículo</ion-item>
+  </div>
+
+
+  <ng-template #agregarVehiculoTemplate>
+    <!-- Si no tiene un vehículo con marca -->
+    <ion-item color="primary" [button]="true" (click)="addCar()"> Agregar Vehiculo</ion-item>
+  </ng-template>
+</ion-list>
 
   <ion-list-header>Configuracion</ion-list-header>
-  <ion-list [inset]="true">
+  <ion-list>
 
     <ion-item color="danger" [button]="true" (click)="logout()"> Cerrar Sesión</ion-item>
   </ion-list>

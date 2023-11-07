@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Storage } from '@ionic/storage-angular';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -10,16 +11,41 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-  user:any
-  datos: any;
-  constructor(private router: Router ,private authenticationService: AuthenticationService, private storage: Storage) {
+  user:any;
+  sesion: any;
+  usuario: any;
+  datosCargados: boolean = false;
+  constructor(private router: Router ,private authenticationService: AuthenticationService, private storage: Storage, private alertController: AlertController) {
     this.user = authenticationService.getProfile();
   }
 
   async ngOnInit() {
-    this.datos = await this.storage.get('sesion');
-    
-    
+    this.sesion = await this.storage.get('sesion');
+    this.usuario = await this.storage.get(this.sesion.email);
+    console.log("Sesion", this.sesion)
+    this.datosCargados = true; 
+  }
+
+
+  modCar(){
+
+  }
+
+  async delCar(){
+    this.usuario.auto.marca = "";
+    this.usuario.auto.modelo = "";
+    this.usuario.auto.patente = "";
+
+    await this.storage.set(this.sesion.email, this.usuario);
+    await this.storage.set('sesion', this.usuario);
+
+
+    console.log("Eliminar")
+  }
+
+  addCar(){
+    this.router.navigate(["modauto"])
+
   }
 
 
@@ -36,6 +62,34 @@ export class PerfilPage implements OnInit {
   async removeUserData() {
     let sesion = await this.storage.get('sesion');
     await this.storage.remove('sesion');
+  }
+
+
+  async mostrarConfirmacion() {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de que deseas eliminar este elemento?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            // Acción al hacer clic en "Cancelar" (opcional)
+            console.log('Eliminación cancelada');
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: () => {
+            // Llama al método de eliminación aquí
+            this.delCar();
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
   }
 
 

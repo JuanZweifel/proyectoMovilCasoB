@@ -63,18 +63,23 @@ async signUP() {
 
     if (user) {
 
-      let usuario={
+      let usuario = {
         name: this.signupForm.value.name,
         phone: this.signupForm.value.phone,
         email: this.signupForm.value.email,
-        password:this.signupForm.value.password,
-      }
+        password: this.signupForm.value.password,
+        auto: {
+          marca: '',
+          modelo: '',
+          patente: ''
+        }
+      };
 
 
       await this.storage.set(this.signupForm.value.email, usuario);
 
       loading.dismiss();
-      this.router.navigate(['/tabs/login']);
+      this.router.navigate(['']);
     } else {
       console.log('Por favor, proporciona todos los valores requeridos en el formulario.');
     }
