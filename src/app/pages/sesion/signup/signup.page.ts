@@ -15,6 +15,8 @@ import { Usuario } from '../../../interfaces/usuario';
 export class SignupPage implements OnInit {
   usuarios: Usuario = {
     email: '',
+    name: '',
+    phone: '',
     password: '',
   };
   
@@ -79,6 +81,8 @@ async signUP() {
     if (user) {
 
       this.usuarios.email = this.signupForm.value.email
+      this.usuarios.name = this.signupForm.value.name
+      this.usuarios.phone = this.signupForm.value.phone
       this.usuarios.password = this.signupForm.value.password
 
       this.agregarUsuario(this.usuarios)
