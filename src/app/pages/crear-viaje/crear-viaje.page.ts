@@ -31,6 +31,7 @@ export class CrearViajePage implements OnInit {
   }
 
   async onSubmit() {
+    this.viaje.patente = this.sesion.auto.patente
     await this.storage.set("viaje",this.viaje)
     this.router.navigateByUrl('conductor-viaje')
   }

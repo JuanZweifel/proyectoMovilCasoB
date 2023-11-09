@@ -3,7 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { Storage } from '@ionic/storage-angular';
+import { Usuario } from '../../../interfaces/usuario';
 
 @Component({
   selector: 'app-signup',
@@ -11,14 +13,19 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
+  usuarios: Usuario = {
+    email: '',
+    password: '',
+  };
+  
 
   signupForm: FormGroup
 
   constructor(public formBuilder: FormBuilder, 
     private  loadingController: LoadingController, 
     private authenticationService: AuthenticationService,
+    private firestoreservice: FirestoreService,
     private router: Router,
-    private toastController: ToastController,
     private alertController: AlertController,
     private storage: Storage) {
 
@@ -71,6 +78,12 @@ async signUP() {
 
     if (user) {
 
+      this.usuarios.email = this.signupForm.value.email
+      this.usuarios.password = this.signupForm.value.password
+
+      this.agregarUsuario(this.usuarios)
+
+
       let usuario = {
         name: this.signupForm.value.name,
         phone: this.signupForm.value.phone,
@@ -117,6 +130,15 @@ async signUP() {
     await alert.present();
   }
 
+  async agregarUsuario(usuario:Usuario) {
 
-
+    try {
+      await this.firestoreservice.addUsuario(usuario);
+      console.log('Usuario agregado con éxito.');
+    } catch (error) {
+      console.error('Error al agregar usuario:', error);
+    }
+  }
 }
+
+
