@@ -16,6 +16,7 @@ export class FirestoreService {
     phone: '',
     password: '',
     solicitado: '',
+    ofrecido: '',
     auto: {
       marca: '',
       modelo: '',
@@ -30,6 +31,7 @@ export class FirestoreService {
     destino: '',
     patente: '',
     asientos: 0,
+    disponibles: 0,
     tarifa: 0,
     clientes: [],
     estado: ''
@@ -66,6 +68,7 @@ export class FirestoreService {
           this.usuario.phone = datos.phone;
           this.usuario.name = datos.name;
           this.usuario.solicitado = datos.solicitado;
+          this.usuario.ofrecido = datos.ofrecido;
           this.usuario.password = datos.password;
           this.usuario.auto.marca = datos.auto.marca;
           this.usuario.auto.modelo = datos.auto.modelo;

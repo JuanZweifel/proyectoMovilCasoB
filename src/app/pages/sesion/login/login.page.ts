@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Usuario } from 'src/app/interfaces/usuario';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginPage implements OnInit {
     phone: '',
     password: '',
     solicitado: '',
+    ofrecido: '',
     auto: {
       marca: '',
       modelo: '',
@@ -104,6 +106,10 @@ export class LoginPage implements OnInit {
           if (this.usuarioObtenido) {
             // Usuario obtenido correctamente
             await this.storage.set('sesion', this.usuarioObtenido);
+
+            this.viajeold();
+
+
             loading.dismiss();
             this.router.navigate(['/tabs/home']);
           } else {
@@ -118,38 +124,61 @@ export class LoginPage implements OnInit {
           loading.dismiss();
           this.router.navigate(['/login']);
           this.presentAlert('Ocurrió un error al obtener al usuario');
-        }}
-      } else {
-        // Form is not valid; you can handle this case if necessary
-        this.presentAlert('Por favor, completa el formulario correctamente.');
-        loading.dismiss();
+        }
       }
+    } else {
+      // Form is not valid; you can handle this case if necessary
+      this.presentAlert('Por favor, completa el formulario correctamente.');
+      loading.dismiss();
     }
+  }
 
 
   async presentAlert(message: string) {
-      const alert = await this.alertController.create({
-        header: 'Alerta',
-        subHeader: 'Información',
-        message: message,
-        buttons: ['OK'],
-        backdropDismiss: false,
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      subHeader: 'Información',
+      message: message,
+      buttons: ['OK'],
+      backdropDismiss: false,
 
-      });
+    });
 
-      await alert.present();
+    await alert.present();
+  }
+
+
+  //this.presentAlert()
+
+
+  crearCuenta() {
+    this.router.navigate(["signup"])
+  }
+
+  restaurarContrasena() {
+    this.router.navigate(["contrasena"])
+  }
+
+
+  async viajeold() {
+    try {
+      const sesion = await this.storage.get('sesion')
+      console.log(sesion)
+      if (sesion.ofrecido) {
+
+        const viaje: any = await firstValueFrom(this.firestoreservice.getViajePorId(sesion.solicitado));
+
+        // Aquí puedes utilizar el objeto del viaje obtenido por su ID
+        console.log('Viaje por B:', viaje);
+
+        if (viaje) {
+          await this.storage.set("viajeofrecido", viaje)
+        }
+      }
     }
-
-
-    //this.presentAlert()
-
-
-    crearCuenta() {
-      this.router.navigate(["signup"])
-    }
-
-    restaurarContrasena() {
-      this.router.navigate(["contrasena"])
+    catch (error) {
+      console.error('Error al obtener el viaje:', error);
     }
 
   }
+}

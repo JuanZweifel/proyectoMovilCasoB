@@ -26,6 +26,7 @@ export class HomePage {
     destino: '',
     patente: '',
     asientos: 0,
+    disponibles: 0,
     tarifa: 0,
     clientes: [],
     estado: 'Disponible'

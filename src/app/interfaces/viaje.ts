@@ -4,6 +4,7 @@ export interface Viaje {
     destino: string,
     patente: string,
     asientos: number,
+    disponibles: number,
     tarifa:number,
     clientes:string[],
     estado:string

@@ -68,7 +68,11 @@ export class PerfilPage implements OnInit {
 
   async removeUserData() {
     let sesion = await this.storage.get('sesion');
+
     await this.storage.remove('sesion');
+    await this.storage.remove('viaje_pedido');
+    await this.storage.remove('viajeofrecido');
+    await this.storage.remove('viajeSeleccionado');
   }
 
 

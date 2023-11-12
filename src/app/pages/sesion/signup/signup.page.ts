@@ -19,6 +19,7 @@ export class SignupPage implements OnInit {
     phone: '',
     password: '',
     solicitado:'',
+    ofrecido:'',
     auto: {
       marca: '',
       modelo: '',

@@ -4,6 +4,7 @@ export interface Usuario {
     phone: string,
     password:string,
     solicitado:string,
+    ofrecido:string,
     auto: {
         marca: string,
         modelo: string,
