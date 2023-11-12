@@ -166,10 +166,10 @@ export class LoginPage implements OnInit {
       console.log(sesion)
       if (sesion.ofrecido) {
 
-        const viaje: any = await firstValueFrom(this.firestoreservice.getViajePorId(sesion.solicitado));
+        const viaje: any = await firstValueFrom(this.firestoreservice.getViajePorId(sesion.ofrecido));
 
         // Aquí puedes utilizar el objeto del viaje obtenido por su ID
-        console.log('Viaje por B:', viaje);
+        //console.log('Viaje :', viaje);
 
         if (viaje) {
           await this.storage.set("viajeofrecido", viaje)

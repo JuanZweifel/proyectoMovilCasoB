@@ -15,6 +15,7 @@ export class ViajePage implements OnInit {
   viaje: any
   sesion: any
   asientos: any
+  lista: string[] = []
 
   constructor(private router: Router,
     private modalController: ModalController,
@@ -49,8 +50,17 @@ export class ViajePage implements OnInit {
       } else {
         console.log('Error al agregar viaje solicitado al usuario');
       }
+
       this.viaje.clientes.push(this.sesion.email);
-      console.log(this.viaje.clientes)
+
+      //Por si todo sale mal
+      // this.lista = this.viaje.clientes
+      // const listaUnica: string[] = this.lista.filter((valor, indice, self) => {
+      //   return self.indexOf(valor) === indice;
+      // });
+      // console.log(listaUnica)
+
+
       try {
         await this.firestoreService.actualizarViaje(this.viaje.id, { clientes: this.viaje.clientes });
         console.log('Viaje actualizado con éxito en Firestore');
