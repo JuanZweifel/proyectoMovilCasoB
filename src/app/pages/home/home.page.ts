@@ -4,6 +4,7 @@ import { Route, Router, NavigationExtras, ActivatedRoute } from '@angular/router
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Viaje } from 'src/app/interfaces/viaje';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -12,11 +13,12 @@ import { AlertController, LoadingController } from '@ionic/angular';
 })
 export class HomePage {
   todosLosViajes: any[] = [];
-  viajes:any
+  viajes: any
   sesion: any
   viaje_pedido: any
-  viajeid:any
-  
+  viajeid: any
+  viajev: any
+
 
   viaje: Viaje = {
     chofer: '',
@@ -26,17 +28,17 @@ export class HomePage {
     asientos: 0,
     tarifa: 0,
     clientes: [],
-    estado:'Disponible'
+    estado: 'Disponible'
   }
   loadingController: any;
 
-  constructor(private router: Router, 
-    private storage:Storage,
+  constructor(private router: Router,
+    private storage: Storage,
     private firestoreService: FirestoreService,
     private route: ActivatedRoute,
     private alertController: AlertController,
     loadingController: LoadingController) {
-      
+
   }
 
   async ngOnInit() {
@@ -48,10 +50,10 @@ export class HomePage {
     this.sesion = await this.storage.get('sesion')
     this.viaje_pedido = await this.storage.get('viaje_pedido')
 
-    
+
   }
 
-  
+
   //Almacena la informacion del viaje seleccionado antes de ir a viaje
   async irViaje(viaje: any) {
     this.storage.set('viajeSeleccionado', viaje).then(() => {
@@ -59,42 +61,46 @@ export class HomePage {
     });
   }
 
-  async irRecorrido(sesion: any){
+  async irRecorrido(sesion: any) {
+    try {
+      console.log('Iniciando verificación de recorrido...');
 
-    //Primero verifica si el recorrido sigue disponible
-      await this.firestoreService.getViajePorId(this.sesion.solicitado).subscribe((viaje: any) => {
+      // Obtén el viaje por ID
+      const viaje: any = await firstValueFrom(this.firestoreService.getViajePorId(this.sesion.solicitado));
+
       // Aquí puedes utilizar el objeto del viaje obtenido por su ID
       console.log('Viaje por B:', viaje);
-      this.viaje = viaje;
-      
-    });
-    
-    if (this.viaje){
 
-      this.router.navigate(['recorrido'], {
-        queryParams: {
-          viajeid: sesion.solicitado,
-        }
-      });
-      
-    }
-    else{
-    //Si el viaje no esta disponible modifica elimina el solicitado del usuario del storage y firestore
-    this.sesion.solicitado = ""
-
-    let moduser = await this.firestoreService.addUsuario(this.sesion);
-      if (moduser) {
-        await this.storage.set('sesion', this.sesion);
-        console.log('Se elimino el viaje del usuario');
+      if (viaje) {
+        // El recorrido está disponible, navega a la página de recorrido
+        console.log('Recorrido disponible. Navegando a recorrido...');
+        this.router.navigate(['recorrido'], {
+          queryParams: {
+            viajeid: this.sesion.solicitado,
+          }
+        });
       } else {
-        console.log('Error al eliminar el viaje del usuario');
+        // Si el viaje no está disponible, realiza otras operaciones
+        console.log("LLEGUA AQUI");
+
+        // Elimina el solicitado del usuario del storage y firestore
+        this.sesion.solicitado = "";
+        const moduser = await this.firestoreService.addUsuario(this.sesion);
+
+        if (moduser) {
+          await this.storage.set('sesion', this.sesion);
+          console.log('Se eliminó el viaje del usuario');
+        } else {
+          console.log('Error al eliminar el viaje del usuario');
+        }
+
+        this.presentAlert("El viaje ya no está disponible");
+        console.log("El viaje no está disponible");
       }
-      
-      this.presentAlert("El viaje ya no esta disponible")
-        console.log("El viaje no esta disponible")
+    } catch (error) {
+      console.error('Error al obtener el viaje:', error);
     }
 
-    
 
     //this.router.navigate(['/recorrido'], navigationExtras);
   }
@@ -113,6 +119,6 @@ export class HomePage {
 
     await alert.present();
   }
-  
+
 
 }
