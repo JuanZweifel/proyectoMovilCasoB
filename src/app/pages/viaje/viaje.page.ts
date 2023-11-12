@@ -60,9 +60,13 @@ export class ViajePage implements OnInit {
     
       // Guarda el viaje modificado en el almacenamiento local
       this.storage.set('viaje_pedido', this.viaje);
-    
+      this.router.navigate(['recorrido'], {
+        queryParams: {
+          viajeid: this.sesion.solicitado,
+        }
+      });
   
-    this.router.navigate(["recorrido"])
+
   }
 
 
