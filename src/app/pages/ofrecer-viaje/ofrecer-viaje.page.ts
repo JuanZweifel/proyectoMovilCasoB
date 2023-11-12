@@ -132,13 +132,18 @@ export class OfrecerViajePage implements OnInit {
 
         this.sesion.ofrecido = viaje.id
         await this.storage.set('sesion',this.sesion)
+        this.router.navigate(['conductor-viaje'], {
+          queryParams: {
+            viajeid: this.sesion.ofrecido,
+          }
+        });
 
 
       } else {
         console.log('Error al crear el viaje');
         //Colocar present alert
       }
-    this.router.navigateByUrl('conductor-viaje')
+    //this.router.navigateByUrl('conductor-viaje')
   }
 
   

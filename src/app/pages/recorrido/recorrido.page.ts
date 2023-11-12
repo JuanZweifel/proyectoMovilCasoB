@@ -31,10 +31,17 @@ export class RecorridoPage implements OnInit {
     this.sesion = await this.storage.get('sesion')
     this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
       // Aquí puedes utilizar el objeto del viaje obtenido por su ID
-      console.log('Viaje por ID:', viaje);
+      //console.log('Viaje por ID:', viaje);
       this.viaje = viaje;
       this.datosCargados = true;
     });
+
+    if (this.viaje){
+      console.log("Se queda")
+    }
+    else{
+      this.router.navigate(["tabs/home"])
+    }
   }
 
   volver() {

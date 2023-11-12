@@ -181,4 +181,25 @@ export class LoginPage implements OnInit {
     }
 
   }
+  async viajepedido() {
+    try {
+      const sesion = await this.storage.get('sesion')
+      console.log(sesion)
+      if (sesion.ofrecido) {
+
+        const viaje: any = await firstValueFrom(this.firestoreservice.getViajePorId(sesion.solicitado));
+
+        // Aquí puedes utilizar el objeto del viaje obtenido por su ID
+        //console.log('Viaje :', viaje);
+
+        if (viaje) {
+          await this.storage.set("viajeofrecido", viaje)
+        }
+      }
+    }
+    catch (error) {
+      console.error('Error al obtener el viaje:', error);
+    }
+
+  }
 }
