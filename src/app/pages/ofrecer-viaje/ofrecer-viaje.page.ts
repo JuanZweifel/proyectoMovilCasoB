@@ -22,6 +22,7 @@ export class OfrecerViajePage implements OnInit {
     destino: '',
     patente: '',
     asientos: 0,
+    disponibles: 0,
     tarifa: 0,
     clientes: [],
     estado:'Disponible'
@@ -123,12 +124,19 @@ export class OfrecerViajePage implements OnInit {
   async onSubmit() {
     this.viaje.patente = this.sesion.auto.patente
     this.viaje.chofer = this.sesion.email
-    let viaje = await this.firestoreservice.addViaje(this.viaje);
+    this.viaje.disponibles = this.viaje.asientos
+    let viaje = await this.firestoreservice.addViajer(this.viaje);
       if (viaje) {
         await this.storage.set("viajeofrecido",this.viaje)
         console.log('Se creo el viaje');
+
+        this.sesion.ofrecido = viaje.id
+        await this.storage.set('sesion',this.sesion)
+
+
       } else {
         console.log('Error al crear el viaje');
+        //Colocar present alert
       }
     this.router.navigateByUrl('conductor-viaje')
   }

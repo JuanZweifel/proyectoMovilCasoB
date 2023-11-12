@@ -92,6 +92,25 @@ export class FirestoreService {
     }
   }
 
+  async addViajer(viaje: Viaje): Promise<any> {
+    try {
+      const docRef = await this.authstore.collection('/viajes').add(viaje);
+      const viajeId = docRef.id;
+  
+      // Si el ID se obtiene correctamente, devolver el viaje con su ID
+      if (viajeId) {
+        return { id: viajeId, ...viaje };
+      } else {
+        console.error('Error al obtener el ID del nuevo viaje');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al agregar el viaje:', error);
+      return false; // Indica que la operación falló
+    }
+  }
+  
+
   async actualizarViaje(viajeId: string, datos: any): Promise<void> {
     try {
       await this.authstore.collection('/viajes').doc(viajeId).update(datos);
@@ -116,7 +135,7 @@ export class FirestoreService {
   //   );
   // }
   getTodosLosViajes(): Observable<any[]> {
-    return this.authstore.collection('/viajes', ref => ref.where('estado', '==', 'Disponible'))
+    return this.authstore.collection('/viajes', ref => ref.where('estado', '==', 'Disponible').where('disponibles', '!=', 0))
       .snapshotChanges().pipe(
         map(actions => actions.map(a => {
           const data = a.payload.doc.data() as any;

@@ -53,6 +53,8 @@ export class CrearViajePage implements OnInit {
       if (viaje) {
         await this.storage.set("viajeofrecido",this.viaje)
         console.log('Se creo el viaje');
+        this.sesion.ofecido = ''
+        //await this.storage.set()
       } else {
         console.log('Error al crear el viaje');
       }
