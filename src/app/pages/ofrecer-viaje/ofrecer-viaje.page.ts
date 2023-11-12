@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { GoogleMap, Marker } from '@capacitor/google-maps';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { Viaje } from 'src/app/interfaces/viaje';
+import { FirestoreService } from 'src/app/services/firestore.service';
+
+declare var google: any;
 
 @Component({
   selector: 'app-ofrecer-viaje',
@@ -12,19 +16,28 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 })
 export class OfrecerViajePage implements OnInit {
 
-  viaje: any
-
-  constructor(private router:Router, private storage:Storage, private zone:NgZone) { }
-
-  ionViewDidEnter(){
-    this.createMap();
+  viaje: Viaje = {
+    chofer: '',
+    partida: '',
+    destino: '',
+    patente: '',
+    asientos: 0,
+    tarifa: 0,
+    clientes: [],
+    estado:'Disponible'
   }
+  sesion: any
 
-    //Places Api
+  constructor(private router:Router, private storage:Storage, private zone:NgZone, private firestoreservice: FirestoreService) { }
+
+  //Places Api
+  
   marker!: Marker;
   placeSelect!: string;
   searchQuery!: string;
   places: any[] = [];
+  partidaPlaces: any[] = [];
+  destinoPlaces: any[] = [];
   placesSub?: Subscription;
   private _places = new BehaviorSubject<any[]>([])
 
@@ -41,14 +54,19 @@ export class OfrecerViajePage implements OnInit {
         console.log(e);
       }
     });
-    this.viaje = await this.storage.get('viaje')
+    this.sesion = await this.storage.get('sesion')
   }
 
-  async onSearchChange(event: any) {
+  async onSearchChange(event: any, inputType: 'partida' | 'destino') {
     console.log(event)
     this.searchQuery = event.detail.value
     if (this.searchQuery.length>0) await this.getPlaces();
     if (this.searchQuery.length == 0) this.places = [];
+    if (inputType === 'partida'){
+      this.partidaPlaces = this.places
+    }else{
+      this.destinoPlaces = this.places
+    }
   }
 
   async getPlaces() {
@@ -101,45 +119,35 @@ export class OfrecerViajePage implements OnInit {
     });
   }
 
-  //Google maps
-  @ViewChild('map', { static: true })
-  mapRef!: ElementRef<HTMLElement>;
-  map!: GoogleMap
-
-
-  async createMap() {
-    this.map = await GoogleMap.create({
-      id: 'my-map', // Unique identifier for this map instance
-      element: this.mapRef.nativeElement, // reference to the capacitor-google-map element
-      apiKey: environment.mapsKey, // Your Google Maps API Key
-      config: {
-        center: {
-        // The initial position to be rendered by the map
-        lat: -36.795327746685054,
-        lng: -73.06255176011926,
-      },
-      zoom: 17, // The initial zoom level to be rendered by the map
-      },
-    })
-    this.createMarker();
+  // Formulario viajes
+  async onSubmit() {
+    this.viaje.patente = this.sesion.auto.patente
+    this.viaje.chofer = this.sesion.email
+    let viaje = await this.firestoreservice.addViaje(this.viaje);
+      if (viaje) {
+        await this.storage.set("viajeofrecido",this.viaje)
+        console.log('Se creo el viaje');
+      } else {
+        console.log('Error al crear el viaje');
+      }
+    this.router.navigateByUrl('conductor-viaje')
   }
 
-  async createMarker() {
-    const marker = {
-      coordinate: {
-        lat: -36.795327746685054,
-        lng: -73.06255176011916,
-      },
-      title: 'Partida',
-    }
-    await this.map.addMarker(marker);
+  
+  async selectedPartida(place: any){
+    console.log(place.address)
+    this.viaje.partida = place.address
+
+    this.partidaPlaces = []
+    this.places = []
   }
 
-    // Rescata el lugar seleccionado en la lista
-  async selectedPlace(place: any){
-    console.log(place)
-    console.log(place.lat)
-    console.log(place.lng)
+  async selectedDestino(place: any){
+    console.log(place.address)
+    this.viaje.destino = place.address
+
+    this.destinoPlaces= []
+    this.places = []
   }
 
   onClick(ruta:string) 

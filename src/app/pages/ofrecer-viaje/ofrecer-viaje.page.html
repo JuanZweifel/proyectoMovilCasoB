@@ -1,28 +1,58 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-searchbar searchIcon="search-circle" animated="true" showClearButton="focus" clearIcon="trash-bin" debounce="800" (ionInput)="onSearchChange($event)"></ion-searchbar>
-  </ion-toolbar>
-</ion-header>
-<ion-content>
-  <ion-list *ngIf="places.length > 0 " >
-    <ion-item *ngFor="let place of places" >
-      <ion-icon slot="start" name="location-outline"></ion-icon>
-      <ion-label (click)="selectedPlace(place)">
-        {{place?.title}}
-        <p>
-          <ion-text>
-            {{place?.address}}
-          </ion-text>
-        </p>
-      </ion-label>
+<ion-content class="ion-padding">
+  <h3>Crear viaje</h3>
+  <form #miFormulario="ngForm" (ngSubmit)="onSubmit()" *ngIf="sesion" >
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Lugar de partida" required type="text" aria-label="Lugar de partida" debounce="800" [(ngModel)]="viaje.partida" name="inicio" (ionInput)="onSearchChange($event,'partida')" ></ion-input>
     </ion-item>
-  </ion-list> 
-  <capacitor-google-map #map></capacitor-google-map>
+    <!--Lista de Places API-->
+    <ion-list *ngIf="partidaPlaces.length > 0 " >
+      <ion-item *ngFor="let place of partidaPlaces" >
+        <ion-icon slot="start" name="location-outline"></ion-icon>
+        <ion-label (click)="selectedPartida(place)">
+          {{place?.title}}
+          <p>
+            <ion-text>
+              {{place?.address}}
+            </ion-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list> 
+
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Lugar de destino" required type="text" aria-label="Lugar de destino" debounce="800" [(ngModel)]="viaje.destino" name="destino"  (ionInput)="onSearchChange($event,'destino')"></ion-input>
+    </ion-item>
+    <ion-list *ngIf="destinoPlaces.length > 0 " >
+      <ion-item *ngFor="let place of destinoPlaces" >
+        <ion-icon slot="start" name="location-outline"></ion-icon>
+        <ion-label (click)="selectedDestino(place)">
+          {{place?.title}}
+          <p>
+            <ion-text>
+              {{place?.address}}
+            </ion-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list> 
+    <ion-item>
+      <ion-input labelPlacement="floating" [value]="sesion.auto.patente" type="text" label="Patente vehiculo" required aria-label="Patente vehiculo" name="patente" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Cantidad de asientos" required type="number" aria-label="Cantidad de asientos" name="asientos" [(ngModel)]="viaje.asientos" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" label="Tarifa" required type="number" aria-label="Tarifa" name="tarifa" [(ngModel)]="viaje.tarifa"></ion-input>
+    </ion-item>
+    <!--  <ion-button block color="primary" type="submit" [disabled]="loginForm.invalid">
+      Login
+    </ion-button> -->
+    <ion-button expand="full" color="primary" type="submit" class="ion-padding" [disabled]="miFormulario.invalid">
+      Crear viaje
+    </ion-button>
+  </form>
 
 
-  <ion-button *ngIf="!viaje; else conViaje"  (click)="onClick('crear-viaje')" expand="block" fill="solid" shape="round" color="success">
-    Crear viaje
-  </ion-button>
   <ng-template #conViaje>
   <ion-button (click)="onClick('conductor-viaje')" expand="block" fill="solid" shape="round" color="success">
       Volver al viaje 
