@@ -1,7 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-searchbar searchIcon="search-circle" animated="true" showClearButton="focus" clearIcon="trash-bin" debounce="800" (ionInput)="onSearchChange($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <ion-searchbar></ion-searchbar> 
+  <ion-list *ngIf="places.length > 0 " >
+    <ion-item *ngFor="let place of places" >
+      <ion-icon slot="start" name="location-outline"></ion-icon>
+      <ion-label (click)="selectedPlace(place)">
+        {{place?.title}}
+        <p>
+          <ion-text>
+            {{place?.address}}
+          </ion-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list> 
+  <capacitor-google-map #map></capacitor-google-map>
 
-  <ion-img src="https://cdn.discordapp.com/attachments/1104853389877190766/1150941147150155816/Screenshot_20230911-204801.png"></ion-img>
 
   <ion-button *ngIf="!viaje; else conViaje"  (click)="onClick('crear-viaje')" expand="block" fill="solid" shape="round" color="success">
     Crear viaje
