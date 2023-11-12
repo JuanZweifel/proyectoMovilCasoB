@@ -3,21 +3,21 @@
     <img src="../../../assets/icon/favicon.png" />
   </ion-avatar>
   <ion-list>
-  <ion-item *ngIf="usuario"> {{ usuario.name }}</ion-item>
-  <ion-item *ngIf="usuario"> {{ usuario.phone }} </ion-item>
-  <ion-item *ngIf="usuario"> {{ usuario.email }} </ion-item>
+  <ion-item *ngIf="sesion"> {{ sesion.name }}</ion-item>
+  <ion-item *ngIf="sesion"> {{ sesion.phone }} </ion-item>
+  <ion-item *ngIf="sesion"> {{ sesion.email }} </ion-item>
 </ion-list>
 
 <ion-list-header>Vehículo</ion-list-header>
 <ion-list *ngIf="datosCargados"> <!-- Mostrar el contenido solo cuando los datos estén cargados -->
-  <div *ngIf="usuario.auto.marca">
-    <ion-item [button]="true">Marca: {{ usuario.auto.marca }} </ion-item>
-    <ion-item [button]="true">Modelo: {{ usuario.auto.modelo }}</ion-item>
-    <ion-item [button]="true">Patente: {{ usuario.auto.patente }}</ion-item>
+  <div *ngIf="sesion.auto.marca">
+    <ion-item [button]="true">Marca: {{ sesion.auto.marca }} </ion-item>
+    <ion-item [button]="true">Modelo: {{ sesion.auto.modelo }}</ion-item>
+    <ion-item [button]="true">Patente: {{ sesion.auto.patente }}</ion-item>
   </div>
 
 
-  <div *ngIf="usuario.auto && usuario.auto.marca; else agregarVehiculoTemplate">
+  <div *ngIf="sesion.auto && sesion.auto.marca; else agregarVehiculoTemplate">
     <!-- Si tiene un vehículo con marca -->
     <ion-item color="primary" [button]="true" (click)="addCar()">Modificar Vehículo</ion-item>
     <ion-item color="primary" [button]="true" (click)="mostrarConfirmacion()">Eliminar Vehículo</ion-item>

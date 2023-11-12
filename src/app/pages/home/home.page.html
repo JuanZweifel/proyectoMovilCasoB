@@ -5,31 +5,41 @@
 
 <ion-content class="ion-padding">
   <div>
-    <h3 style="display: inline-block;" class="ion-margin-end">Solicitar viaje</h3> 
+    <h3 style="display: inline-block;" class="ion-margin-end">Solicitar viaje</h3>
     <ion-icon name="car-sport-outline" size="large" style="margin: 0;"></ion-icon>
 
   </div>
 
   <ion-searchbar show-clear-button="always" value="Destino"></ion-searchbar>
-  <ion-button *ngIf="viaje_pedido"  (click)="irRecorrido()" expand="full" fill="clear" shape="round" color="success">
-    Volver al viaje
-  </ion-button>
-  <br>
-  <ion-list>
-    <ion-item *ngIf="viaje && sesion; else sinViajes" (click)="irViaje()">
-      <ion-icon name="location-sharp" slot="start" class="ion-margin-end"></ion-icon>
-      <ion-label>
-        <h2>#{{viaje.destino}}</h2>
-        <p>Conductor: {{sesion.name}}</p>
-      </ion-label>
-    </ion-item>
-    <ng-template #sinViajes >
-      <ion-item >
-        <ion-icon name="location-sharp" slot="start" class="ion-margin-end"></ion-icon>
-        <ion-label>
-          <h2>Sin viajes nuevos disponibles</h2>
-        </ion-label>
-      </ion-item>
-    </ng-template>
-  </ion-list>
+  <div *ngIf="sesion">
+    <ion-button *ngIf="sesion.solicitado" (click)="irRecorrido(sesion)" expand="full" fill="clear" shape="round"
+      color="success">
+      Volver al viaje
+    </ion-button>
+
+
+    <br>
+    <div *ngIf="sesion.solicitado === ''">
+      <ion-list>
+        <ng-container *ngIf="todosLosViajes.length > 0; else sinViajes">
+          <ion-item *ngFor="let viaje of todosLosViajes" (click)="irViaje(viaje)">
+            <ion-icon name="location-sharp" slot="start" class="ion-margin-end"></ion-icon>
+            <ion-label>
+              <h2>#{{ viaje.destino }}</h2>
+              <p>Conductor: {{ viaje.chofer }}</p>
+              <!-- Otros detalles del viaje según tus necesidades -->
+            </ion-label>
+          </ion-item>
+        </ng-container>
+
+        <ng-template #sinViajes>
+          <ion-item>
+            <ion-label>
+              <h2>No hay viajes disponibles</h2>
+            </ion-label>
+          </ion-item>
+        </ng-template>
+      </ion-list>
+    </div>
+  </div>
 </ion-content>

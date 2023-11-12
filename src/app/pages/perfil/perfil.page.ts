@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Storage } from '@ionic/storage-angular';
 import { AlertController } from '@ionic/angular';
+import { Usuario } from 'src/app/interfaces/usuario';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 
 @Component({
@@ -11,46 +13,54 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-  user:any;
+  user: any;
   sesion: any;
   usuario: any;
+  
   datosCargados: boolean = false;
-  constructor(private router: Router ,private authenticationService: AuthenticationService, private storage: Storage, private alertController: AlertController) {
+  constructor(private router: Router,
+    private authenticationService: AuthenticationService,
+    private firestoreservice: FirestoreService,
+    private storage: Storage,
+    private alertController: AlertController) {
     this.user = authenticationService.getProfile();
   }
-  
-  
+
+
   async ngOnInit() {
-    
+
     this.sesion = await this.storage.get('sesion');
-    this.usuario = await this.storage.get(this.sesion.email);
-    this.datosCargados = true; 
+    this.datosCargados = true;
   }
 
 
-  async delCar(){
-    this.usuario.auto.marca = "";
-    this.usuario.auto.modelo = "";
-    this.usuario.auto.patente = "";
+  async delCar() {
+    this.sesion.auto.marca = "";
+    this.sesion.auto.modelo = "";
+    this.sesion.auto.patente = "";
 
-    await this.storage.set(this.sesion.email, this.usuario);
-    await this.storage.set('sesion', this.usuario);
-
-
-    console.log("Eliminar")
+    let autoeliminado = await this.firestoreservice.addUsuario(this.sesion);
+    if (autoeliminado) {
+      await this.storage.set('sesion', this.sesion);
+      this.presentAlert("Se elimino el vehiculo")
+      console.log('Auto eliminado');
+    } else {
+      this.presentAlert("No se pudo eliminar el vehiculo")
+      console.log('Error al eliminar el auto en el fire store.');
+    }
   }
 
-  addCar(){
+  addCar() {
     this.router.navigate(["modauto"])
 
   }
 
 
 
-  async logout(){
-    this.authenticationService.signOut().then(()=>{
+  async logout() {
+    this.authenticationService.signOut().then(() => {
       this.removeUserData()
-      this.router.navigate(['login']).catch((error)=>{
+      this.router.navigate(['login']).catch((error) => {
         console.log(error);
       })
     })
@@ -85,7 +95,20 @@ export class PerfilPage implements OnInit {
         }
       ]
     });
-  
+
+    await alert.present();
+  }
+
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      subHeader: 'Información',
+      message: message,
+      buttons: ['OK'],
+      backdropDismiss: false,
+
+    });
+
     await alert.present();
   }
 

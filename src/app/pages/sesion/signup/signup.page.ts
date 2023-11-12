@@ -13,12 +13,18 @@ import { Usuario } from '../../../interfaces/usuario';
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-  usuarios: Usuario = {
+  usuario: Usuario = {
     email: '',
     name: '',
     phone: '',
     password: '',
-  };
+    solicitado:'',
+    auto: {
+      marca: '',
+      modelo: '',
+      patente: ''
+  }
+  }
   
 
   signupForm: FormGroup
@@ -79,29 +85,14 @@ async signUP() {
     });
 
     if (user) {
+      //crea el usuario para guardarlo en el firestorage y storage ionic
+      this.usuario.email = this.signupForm.value.email
+      this.usuario.name = this.signupForm.value.name
+      this.usuario.phone = this.signupForm.value.phone
+      this.usuario.password = this.signupForm.value.password
 
-      this.usuarios.email = this.signupForm.value.email
-      this.usuarios.name = this.signupForm.value.name
-      this.usuarios.phone = this.signupForm.value.phone
-      this.usuarios.password = this.signupForm.value.password
+      this.agregarUsuario(this.usuario)
 
-      this.agregarUsuario(this.usuarios)
-
-
-      let usuario = {
-        name: this.signupForm.value.name,
-        phone: this.signupForm.value.phone,
-        email: this.signupForm.value.email,
-        password: this.signupForm.value.password,
-        auto: {
-          marca: '',
-          modelo: '',
-          patente: ''
-        }
-      };
-
-
-      await this.storage.set(this.signupForm.value.email, usuario);
 
       loading.dismiss();
       this.router.navigate(['']);
