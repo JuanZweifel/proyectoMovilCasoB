@@ -2,7 +2,7 @@
   <h3>Crear viaje</h3>
   <form #miFormulario="ngForm" (ngSubmit)="onSubmit()" *ngIf="sesion" >
     <ion-item>
-      <ion-input labelPlacement="floating" label="Lugar de partida" required type="text" aria-label="Lugar de partida" debounce="800" [(ngModel)]="viaje.partida" name="inicio" (ionInput)="onSearchChange($event,'partida')" ></ion-input>
+      <ion-input labelPlacement="floating" label="Lugar de partida" required type="text" aria-label="Lugar de partida" debounce="200" [(ngModel)]="viaje.partida" name="inicio" (ionInput)="onSearchChange($event,'partida')" ></ion-input>
     </ion-item>
     <!--Lista de Places API-->
     <ion-list *ngIf="partidaPlaces.length > 0 " >
@@ -20,7 +20,7 @@
     </ion-list> 
 
     <ion-item>
-      <ion-input labelPlacement="floating" label="Lugar de destino" required type="text" aria-label="Lugar de destino" debounce="800" [(ngModel)]="viaje.destino" name="destino"  (ionInput)="onSearchChange($event,'destino')"></ion-input>
+      <ion-input labelPlacement="floating" label="Lugar de destino" required type="text" aria-label="Lugar de destino" debounce="200" [(ngModel)]="viaje.destino" name="destino"  (ionInput)="onSearchChange($event,'destino')"></ion-input>
     </ion-item>
     <ion-list *ngIf="destinoPlaces.length > 0 " >
       <ion-item *ngFor="let place of destinoPlaces" >
