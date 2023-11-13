@@ -57,23 +57,65 @@ export class FirestoreService {
     }
   }
 
+  async actualizarUsuario(email: string, nuevosDatos: any): Promise<void> {
+    try {
+      await this.authstore.collection('/usuarios').doc(email).update(nuevosDatos);
+    } catch (error) {
+      console.error('Error al actualizar el usuario:', error);
+    }
+  }
+  
+  async actualizarViaje(viajeId: string, datos: any): Promise<void> {
+    try {
+      await this.authstore.collection('/viajes').doc(viajeId).update(datos);
+    } catch (error) {
+      console.error('Error al actualizar el viaje:', error);
+    }
+  }
 
+
+
+  // obtenerUsuario(email: string): Observable<Usuario> {
+  //   return this.authstore.collection(this.path).doc(email).get().pipe(
+  //     map((doc: any) => {
+  //       if (doc.exists) {
+  //         const datos = doc.data();
+  //         this.usuario.email = datos.email;
+  //         this.usuario.phone = datos.phone;
+  //         this.usuario.name = datos.name;
+  //         this.usuario.solicitado = datos.solicitado;
+  //         this.usuario.ofrecido = datos.ofrecido;
+  //         this.usuario.password = datos.password;
+  //         this.usuario.auto.marca = datos.auto.marca;
+  //         this.usuario.auto.modelo = datos.auto.modelo;
+  //         this.usuario.auto.patente = datos.auto.patente;
+  //         return this.usuario;
+  //       } else {
+  //         throw new Error("No se encontró al usuario");
+  //       }
+  //     })
+  //   );
+  // }
 
   obtenerUsuario(email: string): Observable<Usuario> {
     return this.authstore.collection(this.path).doc(email).get().pipe(
       map((doc: any) => {
         if (doc.exists) {
           const datos = doc.data();
-          this.usuario.email = datos.email;
-          this.usuario.phone = datos.phone;
-          this.usuario.name = datos.name;
-          this.usuario.solicitado = datos.solicitado;
-          this.usuario.ofrecido = datos.ofrecido;
-          this.usuario.password = datos.password;
-          this.usuario.auto.marca = datos.auto.marca;
-          this.usuario.auto.modelo = datos.auto.modelo;
-          this.usuario.auto.patente = datos.auto.patente;
-          return this.usuario;
+          const usuario: Usuario = {
+            email: datos.email,
+            phone: datos.phone,
+            name: datos.name,
+            solicitado: datos.solicitado,
+            ofrecido: datos.ofrecido,
+            password: datos.password,
+            auto: {
+              marca: datos.auto.marca,
+              modelo: datos.auto.modelo,
+              patente: datos.auto.patente
+            }
+          };
+          return usuario;
         } else {
           throw new Error("No se encontró al usuario");
         }
@@ -111,13 +153,7 @@ export class FirestoreService {
   }
   
 
-  async actualizarViaje(viajeId: string, datos: any): Promise<void> {
-    try {
-      await this.authstore.collection('/viajes').doc(viajeId).update(datos);
-    } catch (error) {
-      console.error('Error al actualizar el viaje:', error);
-    }
-  }
+  
 
 
   // getTodosLosViajes(): Observable<any[]> {

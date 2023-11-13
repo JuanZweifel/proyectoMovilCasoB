@@ -39,10 +39,19 @@
           <p>{{viaje.chofer}}</p>
         </ion-label>
       </ion-item>
+      <ion-item *ngFor="let cliente of viaje.clientes">
+        <ion-avatar slot="start">
+          <ion-img [src]="'https://i.pravatar.cc/300?u=' + cliente.email"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2>Pasajero</h2>
+          <p>{{ cliente }}</p>
+        </ion-label>
+      </ion-item>
 
       <ion-item>
         <ion-button (click)="onClick()" expand="block" shape="round" class="ion-padding" style="width: 100%;">
-          Finalizar Viaje
+          Cancelar Viaje
         </ion-button>
       </ion-item>
     </ion-list>

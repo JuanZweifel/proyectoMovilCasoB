@@ -2,6 +2,8 @@ import { Storage } from '@ionic/storage-angular';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { Usuario } from 'src/app/interfaces/usuario';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-conductor-viaje',
@@ -13,7 +15,22 @@ export class ConductorViajePage implements OnInit {
   viajeid: any
   sesion: any
   viaje: any
+  correos: string[] = []
   datosCargados: boolean = false;
+
+  usuario: Usuario = {
+    email: '',
+    name: '',
+    phone: '',
+    password: '',
+    solicitado: '',
+    ofrecido: '',
+    auto: {
+      marca: '',
+      modelo: '',
+      patente: ''
+    }
+  }
 
 
   constructor(private router: Router, private storage: Storage, private route: ActivatedRoute,
@@ -50,8 +67,10 @@ export class ConductorViajePage implements OnInit {
       console.log('Error REC');
     }
 
+    this.eliminarUsuarios()
 
-    this.storage.remove('viaje_pedido')
+
+    this.storage.remove('viajeofrecido')
     this.router.navigate(["tabs/home"])
   }
 
@@ -60,13 +79,34 @@ export class ConductorViajePage implements OnInit {
   }
 
 
-  volver(){
+  volver() {
     this.router.navigateByUrl("tabs/ofrecer-viaje")
   }
 
 
+  async eliminarUsuarios() {
+    this.correos = this.viaje.clientes;
   
-//Como se extraen estos datos del storage a pesar de que la vista valida de que si esta el elemento, no alcanza a abrir
+    // Recorre todos los correos para modificar los datos de cada usuario
+    for (let correo of this.correos) {
+      try {
+        const usuario = await firstValueFrom(this.firestoreService.obtenerUsuario(correo));
+  
+        if (usuario) {
+          usuario.solicitado = "";
+          // Ahora, debes llamar a un método para actualizar los datos del usuario.
+          // Puedes utilizar el método actualizarUsuario que deberías agregar en tu servicio.
+          await this.firestoreService.actualizarUsuario(correo, { solicitado: usuario });
+        }
+      } catch (error) {
+        console.error(`Error al obtener o actualizar el usuario ${correo}:`, error);
+      }
+    }
+  }
+
+
+
+  //Como se extraen estos datos del storage a pesar de que la vista valida de que si esta el elemento, no alcanza a abrir
   //el modal con los datos, por lo que despues de que carguen la información del storage se fuerza la visualización del 
   //modal con los datos del viaje
   // ngAfterViewInit() {

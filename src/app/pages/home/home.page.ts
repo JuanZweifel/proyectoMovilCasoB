@@ -70,10 +70,11 @@ export class HomePage {
       const viaje: any = await firstValueFrom(this.firestoreService.getViajePorId(this.sesion.solicitado));
 
       // Aquí puedes utilizar el objeto del viaje obtenido por su ID
-      //console.log('Viaje por B:', viaje);
+      console.log('Viaje por B:', viaje);
 
       if (viaje) {
         // El recorrido está disponible, navega a la página de recorrido
+        console.log('Recorrido disponible. Navegando a recorrido...');
         this.router.navigate(['recorrido'], {
           queryParams: {
             viajeid: this.sesion.solicitado,
@@ -81,6 +82,7 @@ export class HomePage {
         });
       } else {
         // Si el viaje no está disponible, realiza otras operaciones
+        console.log("LLEGUA AQUI");
 
         // Elimina el solicitado del usuario del storage y firestore
         this.sesion.solicitado = "";

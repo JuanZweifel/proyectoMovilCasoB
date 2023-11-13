@@ -15,6 +15,7 @@ export class RecorridoPage implements OnInit {
   sesion: any
   viaje: any
   datosCargados: boolean = false;
+  nuevaListaCorreos: string[] = []
 
 
   constructor(private router: Router, private storage: Storage, private route: ActivatedRoute,
@@ -36,10 +37,10 @@ export class RecorridoPage implements OnInit {
       this.datosCargados = true;
     });
 
-    if (this.viaje){
+    if (this.viaje.destino) {
       console.log("Se queda")
     }
-    else{
+    else {
       this.router.navigate(["tabs/home"])
     }
   }
@@ -49,6 +50,7 @@ export class RecorridoPage implements OnInit {
   }
 
   async onClick() {
+    //Se le elimina el id en solicitado en el store
     this.sesion.solicitado = ""
 
     let modusuario = await this.firestoreService.addUsuario(this.sesion);
@@ -61,6 +63,22 @@ export class RecorridoPage implements OnInit {
       console.log('Error REC');
     }
 
+    // Se elimina el correo en la lista de pasajeros del viaje
+
+    let correoAEliminar: string = this.sesion.email;
+    
+    // Suponiendo que 'correosviaje' es un array de correos (tipo string)
+    let correosviaje: string[] = this.viaje.clientes;
+    
+    // Filtrar la lista para excluir el correo que deseas eliminar
+    this.nuevaListaCorreos = correosviaje.filter((cliente: string) => cliente !== correoAEliminar);
+    
+    // Asignar la nueva lista a 'correosviaje'
+    this.viaje.clientes = this.nuevaListaCorreos;
+    
+    //Actualiza los datos en el firestore
+    await this.firestoreService.actualizarViaje(this.viajeid, this.viaje);
+      
 
     this.storage.remove('viaje_pedido')
     this.router.navigate(["tabs/home"])
