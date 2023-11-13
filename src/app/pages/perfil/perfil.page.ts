@@ -16,6 +16,8 @@ export class PerfilPage implements OnInit {
   user: any;
   sesion: any;
   usuario: any;
+  viajePedido: any;
+  viajeOfrecido : any;
   
   datosCargados: boolean = false;
   constructor(private router: Router,
@@ -28,7 +30,8 @@ export class PerfilPage implements OnInit {
 
 
   async ngOnInit() {
-
+    this.viajeOfrecido = await this.storage.get('viajeofrecido')
+    this.viajePedido = await this.storage.get('viaje_pedido')
     this.sesion = await this.storage.get('sesion');
     this.datosCargados = true;
   }
@@ -55,6 +58,13 @@ export class PerfilPage implements OnInit {
 
   }
 
+  pedido() {
+    this.router.navigate(["ultimo-viaje-pedido"])
+  }
+
+  ofrecido() {
+    this.router.navigate(["ultimo-viaje-ofrecido"])
+  }
 
 
   async logout() {

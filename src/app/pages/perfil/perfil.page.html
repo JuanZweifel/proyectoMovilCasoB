@@ -31,8 +31,13 @@
 </ion-list>
 
   <ion-list-header>Configuracion</ion-list-header>
+  <ion-list *ngIf="viajeOfrecido" >
+    <ion-item color="primary" [button]="true" (click)="ofrecido()"> Ultimo viaje ofrecido</ion-item>
+  </ion-list>
+  <ion-list *ngIf="viajePedido" >
+    <ion-item color="primary" [button]="true" (click)="pedido()"> Ultimo viaje pedido</ion-item>
+  </ion-list>
   <ion-list>
-
     <ion-item color="danger" [button]="true" (click)="logout()"> Cerrar Sesión</ion-item>
   </ion-list>
 

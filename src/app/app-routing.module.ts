@@ -49,6 +49,14 @@ const routes: Routes = [
     path: 'modauto',
     loadChildren: () => import('./pages/modauto/modauto.module').then( m => m.ModautoPageModule),canActivate:[LoginGuard]
   },
+  {
+    path: 'ultimo-viaje-pedido',
+    loadChildren: () => import('./pages/ultimo-viaje-pedido/ultimo-viaje-pedido.module').then( m => m.UltimoViajePedidoPageModule)
+  },
+  {
+    path: 'ultimo-viaje-ofrecido',
+    loadChildren: () => import('./pages/ultimo-viaje-ofrecido/ultimo-viaje-ofrecido.module').then( m => m.UltimoViajeOfrecidoPageModule)
+  },
 
 ];
 
