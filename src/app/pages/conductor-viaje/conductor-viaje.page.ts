@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { firstValueFrom } from 'rxjs';
+import { IonModal, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-conductor-viaje',
@@ -33,14 +34,24 @@ export class ConductorViajePage implements OnInit {
   }
 
 
-  constructor(private router: Router, private storage: Storage, private route: ActivatedRoute,
-    private firestoreService: FirestoreService) {
+  constructor(private router: Router,
+    private storage: Storage,
+    private route: ActivatedRoute,
+    private firestoreService: FirestoreService,
+    private modalController: ModalController) {
     this.route.queryParams.subscribe(params => {
       this.viajeid = params['viajeid'];
     });
 
 
 
+  }
+  ionViewWillLeave() {
+    this.cerrarModal();
+  }
+
+  cerrarModal() {
+    this.modalController.dismiss();
   }
 
   async ngOnInit() {
@@ -55,7 +66,7 @@ export class ConductorViajePage implements OnInit {
 
 
   async onClick() {
-    this.sesion.solicitado = ""
+    this.sesion.ofrecido = ""
 
     let modusuario = await this.firestoreService.addUsuario(this.sesion);
     if (modusuario) {
@@ -74,9 +85,6 @@ export class ConductorViajePage implements OnInit {
     this.router.navigate(["tabs/home"])
   }
 
-  ngAfterViewInit() {
-    console.log(this.viajeid)
-  }
 
 
   volver() {
@@ -86,17 +94,17 @@ export class ConductorViajePage implements OnInit {
 
   async eliminarUsuarios() {
     this.correos = this.viaje.clientes;
-  
+
     // Recorre todos los correos para modificar los datos de cada usuario
     for (let correo of this.correos) {
       try {
-        const usuario = await firstValueFrom(this.firestoreService.obtenerUsuario(correo));
-  
+        let usuario = await firstValueFrom(this.firestoreService.obtenerUsuario(correo));
+
         if (usuario) {
           usuario.solicitado = "";
           // Ahora, debes llamar a un método para actualizar los datos del usuario.
           // Puedes utilizar el método actualizarUsuario que deberías agregar en tu servicio.
-          await this.firestoreService.actualizarUsuario(correo, { solicitado: usuario });
+          await this.firestoreService.actualizarUsuario(correo, usuario);
         }
       } catch (error) {
         console.error(`Error al obtener o actualizar el usuario ${correo}:`, error);
@@ -106,21 +114,21 @@ export class ConductorViajePage implements OnInit {
 
 
 
-  //Como se extraen estos datos del storage a pesar de que la vista valida de que si esta el elemento, no alcanza a abrir
-  //el modal con los datos, por lo que despues de que carguen la información del storage se fuerza la visualización del 
-  //modal con los datos del viaje
-  // ngAfterViewInit() {
-  //   this.route.queryParams.subscribe((params) => {
-  //     const modal = document.querySelector('ion-modal');
-  //     if (modal) {
-  //       modal.componentProps = {
-  //         viaje: this.viaje,
-  //       };
-  //       modal.present();
-  //     }
-  //   });
-  // }
+  // Como se extraen estos datos del storage a pesar de que la vista valida de que si esta el elemento, no alcanza a abrir
+  // el modal con los datos, por lo que despues de que carguen la información del storage se fuerza la visualización del 
+  // modal con los datos del viaje
+  ngAfterViewInit() {
+    this.route.queryParams.subscribe((params) => {
+      const modal = document.querySelector('ion-modal');
+      if (modal) {
+        modal.componentProps = {
+          viaje: this.viaje,
+        };
+        modal.present();
+      }
+    });
 
 
 
+  }
 }
