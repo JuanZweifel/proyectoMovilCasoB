@@ -25,14 +25,14 @@ export class OfrecerViajePage implements OnInit {
     disponibles: 0,
     tarifa: 0,
     clientes: [],
-    estado:'Disponible'
+    estado: 'Disponible'
   }
   sesion: any
 
-  constructor(private router:Router, private storage:Storage, private zone:NgZone, private firestoreservice: FirestoreService) { }
+  constructor(private router: Router, private storage: Storage, private zone: NgZone, private firestoreservice: FirestoreService) { }
 
   //Places Api
-  
+
   marker!: Marker;
   placeSelect!: string;
   searchQuery!: string;
@@ -61,11 +61,11 @@ export class OfrecerViajePage implements OnInit {
   async onSearchChange(event: any, inputType: 'partida' | 'destino') {
     console.log(event)
     this.searchQuery = event.detail.value
-    if (this.searchQuery.length>0) await this.getPlaces();
+    if (this.searchQuery.length > 0) await this.getPlaces();
     if (this.searchQuery.length == 0) this.places = [];
-    if (inputType === 'partida'){
+    if (inputType === 'partida') {
       this.partidaPlaces = this.places
-    }else{
+    } else {
       this.destinoPlaces = this.places
     }
   }
@@ -78,11 +78,11 @@ export class OfrecerViajePage implements OnInit {
         componentRestrictions: {
           country: 'CL'
         }
-      }, (predictions:any) => {
-        let autoCompleteItems:any = [];
+      }, (predictions: any) => {
+        let autoCompleteItems: any = [];
         this.zone.run(() => {
-          if(predictions != null) {
-            predictions.forEach(async(prediction:any) => {
+          if (predictions != null) {
+            predictions.forEach(async (prediction: any) => {
               console.log('prediction: ', prediction);
               let latLng: any = await this.geoCode(prediction.description);
               const places = {
@@ -101,17 +101,17 @@ export class OfrecerViajePage implements OnInit {
           }
         });
       });
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   }
 
   // Geocoding Api
-  geoCode(address:any) {
-    let latlng = {lat: '', lng: ''};
+  geoCode(address: any) {
+    let latlng = { lat: '', lng: '' };
     return new Promise((resolve, reject) => {
       let geocoder = new google.maps.Geocoder();
-      geocoder.geocode({'address' : address}, (results:any) => {
+      geocoder.geocode({ 'address': address }, (results: any) => {
         console.log('results: ', results);
         latlng.lat = results[0].geometry.location.lat();
         latlng.lng = results[0].geometry.location.lng();
@@ -126,28 +126,45 @@ export class OfrecerViajePage implements OnInit {
     this.viaje.chofer = this.sesion.email
     this.viaje.disponibles = this.viaje.asientos
     let viaje = await this.firestoreservice.addViajer(this.viaje);
-      if (viaje) {
-        await this.storage.set("viajeofrecido",this.viaje)
-        console.log('Se creo el viaje');
+    if (viaje) {
+      await this.storage.set("viajeofrecido", this.viaje)
+      console.log('Se creo el viaje');
 
-        this.sesion.ofrecido = viaje.id
-        await this.storage.set('sesion',this.sesion)
+      this.sesion.ofrecido = viaje.id
+
+      let modusu = await this.firestoreservice.addUsuario(this.sesion);
+      if (modusu) {
+
+        await this.storage.set('sesion', this.sesion);
+
+        console.log('Se actualizaron los datos del usuario');
+      } else {
+        console.log('NO se actualizaron los datos del usuario');
+      }
+
+
+      
+      let verdadero = await this.storage.set('sesion', this.sesion)
+
+      if (verdadero) {
         this.router.navigate(['conductor-viaje'], {
           queryParams: {
             viajeid: this.sesion.ofrecido,
           }
         });
-
-
-      } else {
-        console.log('Error al crear el viaje');
-        //Colocar present alert
       }
+
+
+
+    } else {
+      console.log('Error al crear el viaje');
+      //Colocar present alert
+    }
     //this.router.navigateByUrl('conductor-viaje')
   }
 
-  
-  async selectedPartida(place: any){
+
+  async selectedPartida(place: any) {
     console.log(place.address)
     this.viaje.partida = place.address
 
@@ -155,20 +172,19 @@ export class OfrecerViajePage implements OnInit {
     this.places = []
   }
 
-  async selectedDestino(place: any){
+  async selectedDestino(place: any) {
     console.log(place.address)
     this.viaje.destino = place.address
 
-    this.destinoPlaces= []
+    this.destinoPlaces = []
     this.places = []
   }
 
-  onClick(ruta:string) 
-  {
-    this.router.navigate(['/'+ruta])
+  onClick(ruta: string) {
+    this.router.navigate(['/' + ruta])
   }
 
   ngOnDestroy(): void {
-      if(this.placesSub) this.placesSub.unsubscribe();
+    if (this.placesSub) this.placesSub.unsubscribe();
   }
 }

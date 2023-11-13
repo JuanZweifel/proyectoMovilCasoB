@@ -26,7 +26,7 @@ export class ConductorViajePage implements OnInit {
     password: '',
     solicitado: '',
     ofrecido: '',
-    asientos:0,
+    asientos: 0,
     auto: {
       marca: '',
       modelo: '',
@@ -57,9 +57,9 @@ export class ConductorViajePage implements OnInit {
 
   async ngOnInit() {
     this.sesion = await this.storage.get('sesion')
-    this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
+    await this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
       // Aquí puedes utilizar el objeto del viaje obtenido por su ID
-      //console.log('Viaje por ID:', viaje);
+      console.log('Viaje por ID:', viaje);
       this.viaje = viaje;
       this.datosCargados = true;
     });
@@ -79,10 +79,36 @@ export class ConductorViajePage implements OnInit {
       console.log('Error REC');
     }
 
+    
+    //Eliminar usuarios
+    this.correos = this.viaje.clientes;
+
+    // Recorre todos los correos para modificar los datos de cada usuario
+    for (let correo of this.correos) {
+      try {
+        this.usuario = await firstValueFrom(this.firestoreService.obtenerUsuario(correo));
+        console.log("USER :", this.usuario)
+        if (this.usuario) {
+          this.usuario.solicitado = "";
+          // Ahora, debes llamar a un método para actualizar los datos del usuario.
+          // Puedes utilizar el método actualizarUsuario que deberías agregar en tu servicio.
+
+          let modusu = await this.firestoreService.addUsuario(this.usuario);
+          if (modusu) {
+            console.log('Se actualizaron los datos del usuario');
+          } else {
+            console.log('No se actualizaron los datos del usuario');
+          }
+
+        }
+      } catch (error) {
+        console.error(`Error al obtener o actualizar el usuario ${correo}:`, error);
+      }
+    }
+
     this.viaje.estado = "Finalizado"
     await this.firestoreService.actualizarViaje(this.viaje.id, this.viaje);
 
-    this.eliminarUsuarios()
 
 
     this.storage.remove('viajeofrecido')
@@ -99,23 +125,7 @@ export class ConductorViajePage implements OnInit {
 
 
   async eliminarUsuarios() {
-    this.correos = this.viaje.clientes;
-
-    // Recorre todos los correos para modificar los datos de cada usuario
-    for (let correo of this.correos) {
-      try {
-        let usuario = await firstValueFrom(this.firestoreService.obtenerUsuario(correo));
-        console.log("USER :",usuario)
-        if (usuario) {
-          usuario.solicitado = "";
-          // Ahora, debes llamar a un método para actualizar los datos del usuario.
-          // Puedes utilizar el método actualizarUsuario que deberías agregar en tu servicio.
-          await this.firestoreService.actualizarUsuario(correo, usuario);
-        }
-      } catch (error) {
-        console.error(`Error al obtener o actualizar el usuario ${correo}:`, error);
-      }
-    }
+  
   }
 
 

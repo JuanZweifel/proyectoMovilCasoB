@@ -39,7 +39,7 @@
       <ion-input labelPlacement="floating" [value]="sesion.auto.patente" type="text" label="Patente vehiculo" required aria-label="Patente vehiculo" name="patente" readonly></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input labelPlacement="floating" label="Cantidad de asientos" required type="number" aria-label="Cantidad de asientos" name="asientos" [(ngModel)]="viaje.asientos" ></ion-input>
+      <ion-input labelPlacement="floating" label="Cantidad de asientos" required type="number" aria-label="Cantidad de asientos" name="asientos" [(ngModel)]="viaje.asientos" min="1" max="10"></ion-input>
     </ion-item>
     <ion-item>
       <ion-input labelPlacement="floating" label="Tarifa" required type="number" aria-label="Tarifa" name="tarifa" [(ngModel)]="viaje.tarifa" min="0"></ion-input>
