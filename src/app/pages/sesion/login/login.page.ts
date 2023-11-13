@@ -23,6 +23,7 @@ export class LoginPage implements OnInit {
     password: '',
     solicitado: '',
     ofrecido: '',
+    asientos:0,
     auto: {
       marca: '',
       modelo: '',

@@ -26,6 +26,7 @@ export class ConductorViajePage implements OnInit {
     password: '',
     solicitado: '',
     ofrecido: '',
+    asientos:0,
     auto: {
       marca: '',
       modelo: '',
@@ -78,6 +79,9 @@ export class ConductorViajePage implements OnInit {
       console.log('Error REC');
     }
 
+    this.viaje.estado = "Finalizado"
+    await this.firestoreService.actualizarViaje(this.viaje.id, this.viaje);
+
     this.eliminarUsuarios()
 
 
@@ -88,8 +92,10 @@ export class ConductorViajePage implements OnInit {
 
 
   volver() {
-    this.router.navigateByUrl("tabs/ofrecer-viaje")
+    this.router.navigateByUrl("tabs/perfil")
   }
+
+
 
 
   async eliminarUsuarios() {
@@ -99,7 +105,7 @@ export class ConductorViajePage implements OnInit {
     for (let correo of this.correos) {
       try {
         let usuario = await firstValueFrom(this.firestoreService.obtenerUsuario(correo));
-
+        console.log("USER :",usuario)
         if (usuario) {
           usuario.solicitado = "";
           // Ahora, debes llamar a un método para actualizar los datos del usuario.

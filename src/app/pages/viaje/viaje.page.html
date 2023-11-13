@@ -41,13 +41,13 @@
             </ion-item>
             <ion-item>
               <ion-label>
-                <h2>Asientos disponibles: {{viaje.asientos}}</h2>
+                <h2>Asientos disponibles: {{viaje.disponibles}}</h2>
               </ion-label>
             </ion-item>
             <form #miFormulario="ngForm" (ngSubmit)="onClick()" class="formulario">
               <ion-item class="ion-margin-bottom ion-margin-top">
                 <ion-input labelPlacement="floating" label="Numero asientos" required type="number" aria-label="asientos" name="asientos"
-                  [(ngModel)]="asientos" max="4"></ion-input>
+                  [(ngModel)]="asientos" max="{{ viaje.disponibles }}" min="1"></ion-input>
               </ion-item>
 
             <ion-item>

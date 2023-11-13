@@ -17,6 +17,7 @@ export class FirestoreService {
     password: '',
     solicitado: '',
     ofrecido: '',
+    asientos:0,
     auto: {
       marca: '',
       modelo: '',
@@ -64,7 +65,7 @@ export class FirestoreService {
       console.error('Error al actualizar el usuario:', error);
     }
   }
-  
+
   async actualizarViaje(viajeId: string, datos: any): Promise<void> {
     try {
       await this.authstore.collection('/viajes').doc(viajeId).update(datos);
@@ -108,6 +109,7 @@ export class FirestoreService {
             name: datos.name,
             solicitado: datos.solicitado,
             ofrecido: datos.ofrecido,
+            asientos: datos.asientos,
             password: datos.password,
             auto: {
               marca: datos.auto.marca,

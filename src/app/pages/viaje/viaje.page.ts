@@ -24,6 +24,7 @@ export class ViajePage implements OnInit {
     private firestoreService: FirestoreService) { }
 
   async ngOnInit() {
+    //Agregar que el viaje venga del storage
     this.viaje = await this.storage.get('viajeSeleccionado')
     this.sesion = await this.storage.get('sesion')
   }
@@ -43,6 +44,8 @@ export class ViajePage implements OnInit {
   async onClick() {
     this.sesion.solicitado = this.viaje.id
 
+    this.sesion.asientos = this.asientos
+
     let moduser = await this.firestoreService.addUsuario(this.sesion);
       if (moduser) {
         await this.storage.set('sesion', this.sesion);
@@ -53,6 +56,17 @@ export class ViajePage implements OnInit {
 
       this.viaje.clientes.push(this.sesion.email);
 
+      //Setear asientos
+
+      let resta = this.viaje.disponibles - this.asientos
+
+      console.log("RESTA: ",resta)
+      
+
+      this.viaje.disponibles = resta
+      //this.viaje.disponibles = 
+      
+
       //Por si todo sale mal
       // this.lista = this.viaje.clientes
       // const listaUnica: string[] = this.lista.filter((valor, indice, self) => {
@@ -62,7 +76,7 @@ export class ViajePage implements OnInit {
 
 
       try {
-        await this.firestoreService.actualizarViaje(this.viaje.id, { clientes: this.viaje.clientes });
+        await this.firestoreService.actualizarViaje(this.viaje.id, { clientes: this.viaje.clientes, disponibles: this.viaje.disponibles });
         console.log('Viaje actualizado con éxito en Firestore');
       } catch (error) {
         console.error('Error al actualizar el viaje en Firestore:', error);

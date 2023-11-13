@@ -5,6 +5,7 @@ export interface Usuario {
     password:string,
     solicitado:string,
     ofrecido:string,
+    asientos:number,
     auto: {
         marca: string,
         modelo: string,
