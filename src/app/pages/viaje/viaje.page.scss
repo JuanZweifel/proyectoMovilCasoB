@@ -21,3 +21,16 @@ ion-content {
   align-items: center;
   justify-content: space-between;
 }
+
+.block {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ion-modal {
+//   max-width: 90% !important;
+//   max-height: 90% !important;
+// }

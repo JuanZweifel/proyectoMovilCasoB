@@ -56,10 +56,45 @@ export class HomePage {
 
 
   //Almacena la informacion del viaje seleccionado antes de ir a viaje
+  // async irViaje(viaje: any) {
+  //   this.storage.set('viajeSeleccionado', viaje).then(() => {
+  //     this.router.navigate(['viaje']);
+  //   });
+  // }
+
   async irViaje(viaje: any) {
-    this.storage.set('viajeSeleccionado', viaje).then(() => {
-      this.router.navigate(['viaje']);
-    });
+    try {
+      console.log('Iniciando verificación de recorrido...');
+
+      // Obtén el viaje por ID
+      const viajeb: any = await firstValueFrom(this.firestoreService.getViajePorId(viaje.id));
+
+      // Aquí puedes utilizar el objeto del viaje obtenido por su ID
+      console.log('Viaje por B:', viaje);
+
+      if (viajeb) {
+        console.log("Viajeb")
+        console.log(viajeb)
+        // El recorrido está disponible, navega a la página de recorrido
+        console.log('Recorrido disponible. Navegando a recorrido...');
+        this.router.navigate(['viaje'], {
+          queryParams: {
+            viajeid: viajeb.id,
+          }
+        });
+      } else {
+        // Si el viaje no está disponible, realiza otras operaciones
+        console.log("LLEGUA AQUI");
+      
+        this.presentAlert("No se pudo inrgesar al viaje");
+        console.log("No se pudo ingresar al viaje");
+      }
+    } catch (error) {
+      console.error('Error al obtener el viaje:', error);
+    }
+
+
+
   }
 
   async irRecorrido(sesion: any) {
@@ -105,6 +140,8 @@ export class HomePage {
 
     //this.router.navigate(['/recorrido'], navigationExtras);
   }
+
+
 
 
 

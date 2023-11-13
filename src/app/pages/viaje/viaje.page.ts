@@ -11,7 +11,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
   styleUrls: ['./viaje.page.scss'],
 })
 export class ViajePage implements OnInit {
-
+  viajeid:any
   viaje: any
   sesion: any
   asientos: any
@@ -21,11 +21,19 @@ export class ViajePage implements OnInit {
     private modalController: ModalController,
     private storage: Storage,
     private route: ActivatedRoute,
-    private firestoreService: FirestoreService) { }
+    private firestoreService: FirestoreService) { 
+
+      this.route.queryParams.subscribe(params => {
+        this.viajeid = params['viajeid'];
+      });
+    }
 
   async ngOnInit() {
-    //Agregar que el viaje venga del storage
-    this.viaje = await this.storage.get('viajeSeleccionado')
+    this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
+      // Aquí puedes utilizar el objeto del viaje obtenido por su ID
+      //console.log('Viaje por ID:', viaje);
+      this.viaje = viaje;
+    });
     this.sesion = await this.storage.get('sesion')
   }
 

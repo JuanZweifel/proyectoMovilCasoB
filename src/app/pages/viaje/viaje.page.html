@@ -59,6 +59,15 @@
                 <p>{{viaje.chofer}}</p>
               </ion-label>
             </ion-item>
+            <ion-item *ngFor="let cliente of viaje.clientes">
+              <ion-avatar slot="start">
+                <ion-img [src]="'https://i.pravatar.cc/300?u=' + cliente.email"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2>Pasajero</h2>
+                <p>{{ cliente }}</p>
+              </ion-label>
+            </ion-item>
               <ion-button expand="full" type="submit" class="ion-padding" [disabled]="miFormulario.invalid" shape="round">
                 Enviar
               </ion-button>

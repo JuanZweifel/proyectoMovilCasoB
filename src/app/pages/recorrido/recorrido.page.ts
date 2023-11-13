@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class RecorridoPage implements OnInit {
 
 
   constructor(private router: Router, private storage: Storage, private route: ActivatedRoute,
-    private firestoreService: FirestoreService) {
+    private firestoreService: FirestoreService, private alertController: AlertController) {
     this.route.queryParams.subscribe(params => {
       this.viajeid = params['viajeid'];
     });
@@ -37,8 +38,12 @@ export class RecorridoPage implements OnInit {
       this.datosCargados = true;
     });
 
-    if (this.viaje.destino) {
+    if (this.viaje.estado = "Dispopnible") {
       console.log("Se queda")
+    }
+    else if(this.viaje.estado = "Finalizado"){
+      this.presentAlert("El conductor finalizo el viaje")
+      this.router.navigate(["tabs/home"])
     }
     else {
       this.router.navigate(["tabs/home"])
@@ -89,6 +94,20 @@ export class RecorridoPage implements OnInit {
 
   ngAfterViewInit() {
     console.log(this.viajeid)
+  }
+
+
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      subHeader: 'Información',
+      message: message,
+      buttons: ['OK'],
+      backdropDismiss: false,
+
+    });
+
+    await alert.present();
   }
 
 }
