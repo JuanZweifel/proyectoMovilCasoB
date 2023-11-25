@@ -8,6 +8,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { firstValueFrom } from 'rxjs';
+import { Network, ConnectionStatus } from '@capacitor/network';
 
 @Component({
   selector: 'app-login',
@@ -50,18 +51,38 @@ export class LoginPage implements OnInit {
 
   }
 
+  async getConexion(): Promise<boolean>{
+    const status:ConnectionStatus = await Network.getStatus()
+    return status.connected
+  }
+
   async ngOnInit() {
-    const userData = await this.storage.get('sesion');;
+    const userData = await this.storage.get('sesion');
     if (userData && userData.email && userData.password) {
-      // Si hay datos de usuario en el almacenamiento, intenta iniciar sesión automáticamente.
-      //this.router.navigate(['/tabs/home']);
-      //Introduce el imail y contraseña en el loginform
+
+      //Ingresa los datos previamente almacenado en la sesion en el formulario apra que inicie sesion
       this.loginForm.patchValue({
         email: userData.email,
         password: userData.password
       });
-      this.login(); // Llama al método login para iniciar sesión automáticamente.
+
+      let conexion = await this.getConexion()
+
+      if (conexion){
+        this.login();
+        this.router.navigate(['/tabs/perfil']);
+      }
+      else{
+        this.presentAlert('No hay conexion a internet');
+      }
+
+      // Si hay datos de usuario en el almacenamiento, intenta iniciar sesión automáticamente.
+      //this.router.navigate(['/tabs/home']);
+      //Introduce el imail y contraseña en el loginform
+      
+       // Llama al método login para iniciar sesión automáticamente.
     }
+
   }
 
 

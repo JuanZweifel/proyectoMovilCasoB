@@ -49,7 +49,7 @@ export class FirestoreService {
 
   async addUsuario(usuario: Usuario): Promise<boolean> {
     try {
-      usuario.password = '';
+      //usuario.password = '';
       await this.authstore.collection(this.path).doc(usuario.email).set(usuario);
       return true; // Indica que la operación fue exitosa
     } catch (error) {

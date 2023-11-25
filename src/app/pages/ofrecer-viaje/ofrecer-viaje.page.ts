@@ -140,6 +140,7 @@ export class OfrecerViajePage implements OnInit {
       if (viaje) {
         await this.storage.set("viajeofrecido", this.viaje);
         console.log('Se creó el viaje');
+        console.log(this.sesion)
 
         this.sesion.ofrecido = viaje.id;
 
