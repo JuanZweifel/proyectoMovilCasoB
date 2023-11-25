@@ -28,14 +28,18 @@ export class PerfilPage implements OnInit {
     this.user = authenticationService.getProfile();
   }
 
-
-  async ngOnInit() {
+  async ionViewDidEnter(){
     this.viajeOfrecido = await this.storage.get('viajeofrecido')
     this.viajePedido = await this.storage.get('viaje_pedido')
     this.sesion = await this.storage.get('sesion');
     this.datosCargados = true;
   }
 
+  async ngOnInit() {
+    this.router.events.subscribe(() => {
+        this.ionViewDidEnter();
+      });
+  }
 
   async delCar() {
     this.sesion.auto.marca = "";
@@ -55,7 +59,6 @@ export class PerfilPage implements OnInit {
 
   addCar() {
     this.router.navigate(["modauto"])
-
   }
 
   pedido() {
