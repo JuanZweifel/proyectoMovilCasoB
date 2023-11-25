@@ -50,8 +50,16 @@ export class HomePage {
 
     this.sesion = await this.storage.get('sesion')
     this.viaje_pedido = await this.storage.get('viaje_pedido')
+    this.router.events.subscribe(() => {
+      this.ionViewDidEnter();
+    });
 
 
+  }
+
+  async ionViewDidEnter(){
+    this.sesion = await this.storage.get('sesion')
+    this.viaje_pedido = await this.storage.get('viaje_pedido')
   }
 
 
