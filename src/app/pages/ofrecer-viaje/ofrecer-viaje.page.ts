@@ -121,46 +121,56 @@ export class OfrecerViajePage implements OnInit {
   }
 
   // Formulario viajes
+  submitting: boolean = false; // Variable de estado para rastrear si se está enviando una solicitud
+
   async onSubmit() {
-    this.viaje.patente = this.sesion.auto.patente
-    this.viaje.chofer = this.sesion.email
-    this.viaje.disponibles = this.viaje.asientos
-    let viaje = await this.firestoreservice.addViajer(this.viaje);
-    if (viaje) {
-      await this.storage.set("viajeofrecido", this.viaje)
-      console.log('Se creo el viaje');
-
-      this.sesion.ofrecido = viaje.id
-
-      let modusu = await this.firestoreservice.addUsuario(this.sesion);
-      if (modusu) {
-
-        await this.storage.set('sesion', this.sesion);
-
-        console.log('Se actualizaron los datos del usuario');
-      } else {
-        console.log('NO se actualizaron los datos del usuario');
-      }
-
-
-      
-      let verdadero = await this.storage.set('sesion', this.sesion)
-
-      if (verdadero) {
-        this.router.navigate(['conductor-viaje'], {
-          queryParams: {
-            viajeid: this.sesion.ofrecido,
-          }
-        });
-      }
-
-
-
-    } else {
-      console.log('Error al crear el viaje');
-      //Colocar present alert
+    // Evitar que se envíen múltiples solicitudes si ya se está procesando una
+    if (this.submitting) {
+      return;
     }
-    //this.router.navigateByUrl('conductor-viaje')
+
+    this.submitting = true; // Establecer la variable de estado a true para indicar que se está enviando una solicitud
+
+    try {
+      this.viaje.patente = this.sesion.auto.patente
+      this.viaje.chofer = this.sesion.email
+      this.viaje.disponibles = this.viaje.asientos
+      let viaje = await this.firestoreservice.addViajer(this.viaje);
+
+      if (viaje) {
+        await this.storage.set("viajeofrecido", this.viaje);
+        console.log('Se creó el viaje');
+
+        this.sesion.ofrecido = viaje.id;
+
+        let modusu = await this.firestoreservice.addUsuario(this.sesion);
+
+        if (modusu) {
+          await this.storage.set('sesion', this.sesion);
+          console.log('Se actualizaron los datos del usuario');
+        } else {
+          console.log('NO se actualizaron los datos del usuario');
+        }
+
+        let verdadero = await this.storage.set('sesion', this.sesion);
+
+        if (verdadero) {
+          this.router.navigate(['conductor-viaje'], {
+            queryParams: {
+              viajeid: this.sesion.ofrecido,
+            }
+          });
+        }
+
+      } else {
+        console.log('Error al crear el viaje');
+        // Colocar present alert
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+    } finally {
+      this.submitting = false; // Establecer la variable de estado a false después de completar la solicitud
+    }
   }
 
 
