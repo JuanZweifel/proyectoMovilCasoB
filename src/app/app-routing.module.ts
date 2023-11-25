@@ -47,7 +47,7 @@ const routes: Routes = [
   },
   {
     path: 'modauto',
-    loadChildren: () => import('./pages/modauto/modauto.module').then( m => m.ModautoPageModule),canActivate:[LoginGuard]
+    loadChildren: () => import('./pages/modauto/modauto.module').then( m => m.ModautoPageModule),canActivate:[LoginGuard, ConexionGuard]
   },
   {
     path: 'ultimo-viaje-pedido',
