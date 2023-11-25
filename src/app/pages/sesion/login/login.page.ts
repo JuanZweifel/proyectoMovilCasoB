@@ -54,13 +54,13 @@ export class LoginPage implements OnInit {
     const userData = await this.storage.get('sesion');;
     if (userData && userData.email && userData.password) {
       // Si hay datos de usuario en el almacenamiento, intenta iniciar sesión automáticamente.
-      this.router.navigate(['/tabs/home']);
+      //this.router.navigate(['/tabs/home']);
       //Introduce el imail y contraseña en el loginform
       this.loginForm.patchValue({
         email: userData.email,
         password: userData.password
       });
-      //this.login(); // Llama al método login para iniciar sesión automáticamente.
+      this.login(); // Llama al método login para iniciar sesión automáticamente.
     }
   }
 
@@ -106,6 +106,8 @@ export class LoginPage implements OnInit {
 
           if (this.usuarioObtenido) {
             // Usuario obtenido correctamente
+            this.usuarioObtenido.password=this.loginForm.value.password
+
             await this.storage.set('sesion', this.usuarioObtenido);
 
             this.viajeold();
