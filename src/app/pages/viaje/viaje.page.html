@@ -73,8 +73,9 @@
             <ion-button color="light" (click)="modal.dismiss()">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
+        <div class="fondo">
         <ion-text *ngIf="viaje.clientes && viaje.clientes.length === 0">
-          <h1 class="ion-margin-start">No hay pajeros regitrados</h1>
+          <h1 class="ion-margin-start">No hay pasajeros registrados</h1>
         </ion-text>
         <ion-item *ngFor="let cliente of viaje.clientes">
           <ion-avatar slot="start">
@@ -84,7 +85,7 @@
             <p>{{ cliente }}</p>
           </ion-label>
         </ion-item>
-
+      </div>
       </ion-content>
     </ng-template>
   </ion-modal>
