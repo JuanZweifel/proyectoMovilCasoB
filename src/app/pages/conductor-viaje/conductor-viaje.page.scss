@@ -24,5 +24,12 @@ ion-modal ion-toolbar {
 capacitor-google-map {
     display: inline-block;
     width: 100%;
-    height: 50%;
+    height: 80%;
+}
+
+.down {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999; /* Ajusta según sea necesario para que esté por encima del contenido */
 }
