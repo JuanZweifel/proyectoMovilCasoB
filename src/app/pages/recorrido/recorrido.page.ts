@@ -49,6 +49,13 @@ export class RecorridoPage implements OnInit {
     });
   }
 
+  async abrirModal() {
+    const modal = document.querySelector('ion-modal');
+      if (modal) {
+        modal.present();
+      };
+  }
+
   volver() {
     this.router.navigate(["tabs/home"])
   }
