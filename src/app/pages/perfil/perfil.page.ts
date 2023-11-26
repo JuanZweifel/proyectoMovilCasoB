@@ -71,21 +71,26 @@ export class PerfilPage implements OnInit {
 
 
   async logout() {
-    this.authenticationService.signOut().then(() => {
-      this.removeUserData()
-      this.router.navigate(['login']).catch((error) => {
-        console.log(error);
-      })
-    })
+    try {
+      await this.authenticationService.signOut();
+      await this.removeUserData();
+      this.router.navigate(['login']);
+    } catch (error) {
+      console.error(error);
+    }
   }
-
+  
   async removeUserData() {
-    let sesion = await this.storage.get('sesion');
-
-    await this.storage.remove('sesion');
-    await this.storage.remove('viaje_pedido');
-    await this.storage.remove('viajeofrecido');
-    await this.storage.remove('viajeSeleccionado');
+    try {
+      let sesion = await this.storage.get('sesion');
+  
+      await this.storage.remove('sesion');
+      await this.storage.remove('viaje_pedido');
+      await this.storage.remove('viajeofrecido');
+      await this.storage.remove('viajeSeleccionado');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 

@@ -69,7 +69,7 @@ export class LoginPage implements OnInit {
       let conexion = await this.getConexion()
 
       if (conexion){
-        this.login();
+        await this.login();
         this.router.navigate(['/tabs/perfil']);
       }
       else{
