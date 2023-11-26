@@ -1,10 +1,12 @@
 import { Storage } from '@ionic/storage-angular';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { firstValueFrom } from 'rxjs';
 import { IonModal, ModalController } from '@ionic/angular';
+import { GoogleMap } from '@capacitor/google-maps';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-conductor-viaje',
@@ -66,6 +68,9 @@ export class ConductorViajePage implements OnInit {
     });
   }
 
+  ionViewDidEnter(){
+    this.createMap();
+  }
 
   async onClick() {
     this.sesion.ofrecido = ""
@@ -128,8 +133,44 @@ export class ConductorViajePage implements OnInit {
   async eliminarUsuarios() {
   
   }
+    //Google maps
+    @ViewChild('map', { static: true })
+    mapRef!: ElementRef<HTMLElement>;
+    map!: GoogleMap
+  
+  
+    async createMap() {
+      this.map = await GoogleMap.create({
+        id: 'my-map', // Unique identifier for this map instance
+        element: this.mapRef.nativeElement, // reference to the capacitor-google-map element
+        apiKey: environment.mapsKey, // Your Google Maps API Key
+        config: {
+          center: {
+          // The initial position to be rendered by the map
+          
+          lat: this.viaje.lat_destino,
+          lng: this.viaje.lng_destino,
+          },
+          zoom: 17, // The initial zoom level to be rendered by the map
+          disableDefaultUI: true,
+        },
+      })
+      this.createMarker();
+    }
 
-
+    async createMarker() {
+      const marker = {
+        coordinate: {
+          lat: this.viaje.lat_destino,
+          lng: this.viaje.lng_destino,
+        },
+        title: 'Destino',
+        draggable: true
+      }
+  
+      
+      await this.map.addMarker(marker);
+    }
 
 
 

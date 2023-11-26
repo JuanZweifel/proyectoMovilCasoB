@@ -7,5 +7,9 @@ export interface Viaje {
     disponibles: number,
     tarifa:number,
     clientes:string[],
-    estado:string
+    estado:string,
+    lat_partida: any,
+    lng_partida: any,
+    lat_destino: any,
+    lng_destino: any,
 }

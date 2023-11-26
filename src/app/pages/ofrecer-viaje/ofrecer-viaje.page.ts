@@ -18,14 +18,18 @@ export class OfrecerViajePage implements OnInit {
 
   viaje: Viaje = {
     chofer: '',
-    partida: '',
+    partida: 'Duoc UC: Sede San Andrés De Concepción - Paicaví, Concepción, Chile',
     destino: '',
     patente: '',
     asientos: 0,
     disponibles: 0,
     tarifa: 0,
     clientes: [],
-    estado: 'Disponible'
+    estado: 'Disponible',
+    lat_partida: -36.795331,
+    lng_partida: -73.0625728,
+    lat_destino: 0,
+    lng_destino: 0,
   }
   sesion: any
 
@@ -178,6 +182,8 @@ export class OfrecerViajePage implements OnInit {
   async selectedPartida(place: any) {
     console.log(place.address)
     this.viaje.partida = place.address
+    //this.viaje.lat_partida = place.lat
+    //this.viaje.lng_partida = place.lng
 
     this.partidaPlaces = []
     this.places = []
@@ -186,6 +192,8 @@ export class OfrecerViajePage implements OnInit {
   async selectedDestino(place: any) {
     console.log(place.address)
     this.viaje.destino = place.address
+    this.viaje.lat_destino = place.lat
+    this.viaje.lng_destino = place.lng
 
     this.destinoPlaces = []
     this.places = []

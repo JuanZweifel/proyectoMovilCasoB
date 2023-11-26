@@ -1,3 +1,4 @@
+import { ViajePedidoGuard } from './../guards/viaje-pedido.guard';
 import { ViajeOfrecidoGuard } from './../guards/viaje-ofrecido.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
@@ -13,7 +14,7 @@ const routes: Routes = [
       {
         path: 'ofrecer-viaje',
         loadChildren: () => import('../pages/ofrecer-viaje/ofrecer-viaje.module').then( m => m.OfrecerViajePageModule),
-        canActivate:[ConexionGuard, ViajeOfrecidoGuard]
+        canActivate:[ConexionGuard, ViajeOfrecidoGuard, ViajePedidoGuard]
       },
       {
         path: 'home',

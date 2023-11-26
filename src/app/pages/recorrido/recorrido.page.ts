@@ -1,9 +1,11 @@
 import { Storage } from '@ionic/storage-angular';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { GoogleMap, Marker } from '@capacitor/google-maps';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -24,9 +26,6 @@ export class RecorridoPage implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.viajeid = params['viajeid'];
     });
-
-
-
   }
 
   async ngOnInit() {
@@ -47,6 +46,10 @@ export class RecorridoPage implements OnInit {
         });
       }
     });
+  }
+
+  ionViewDidEnter(){
+    this.createMap();
   }
 
   volver() {
@@ -109,4 +112,42 @@ export class RecorridoPage implements OnInit {
     await alert.present();
   }
 
+    //Google maps
+    @ViewChild('map', { static: true })
+    mapRef!: ElementRef<HTMLElement>;
+    map!: GoogleMap
+  
+  
+    async createMap() {
+      this.map = await GoogleMap.create({
+        id: 'my-map', // Unique identifier for this map instance
+        element: this.mapRef.nativeElement, // reference to the capacitor-google-map element
+        apiKey: environment.mapsKey, // Your Google Maps API Key
+        config: {
+          center: {
+          // The initial position to be rendered by the map
+          
+          lat: this.viaje.lat_destino,
+          lng: this.viaje.lng_destino,
+          },
+          zoom: 17, // The initial zoom level to be rendered by the map
+          disableDefaultUI: true,
+        },
+      })
+      this.createMarker();
+    }
+
+    async createMarker() {
+      const marker = {
+        coordinate: {
+          lat: this.viaje.lat_destino,
+          lng: this.viaje.lng_destino,
+        },
+        title: 'Destino',
+        draggable: true
+      }
+  
+      
+      await this.map.addMarker(marker);
+    }
 }

@@ -29,7 +29,11 @@ export class HomePage {
     disponibles: 0,
     tarifa: 0,
     clientes: [],
-    estado: 'Disponible'
+    estado: 'Disponible',
+    lat_partida: 0,
+    lat_destino: 0,
+    lng_partida: 0,
+    lng_destino: 0,
   }
   loadingController: any;
 

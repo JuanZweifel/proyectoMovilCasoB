@@ -34,10 +34,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/recorrido/recorrido.module').then( m => m.RecorridoPageModule),canActivate:[LoginGuard]
   },
   {
-    path: 'crear-viaje',
-    loadChildren: () => import('./pages/crear-viaje/crear-viaje.module').then( m => m.CrearViajePageModule),canActivate:[LoginGuard]
-  },
-  {
     path: 'conductor-viaje',
     loadChildren: () => import('./pages/conductor-viaje/conductor-viaje.module').then( m => m.ConductorViajePageModule),canActivate:[LoginGuard]
   },

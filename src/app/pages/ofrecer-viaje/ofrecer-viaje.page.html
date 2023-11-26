@@ -2,7 +2,7 @@
   <h3>Crear viaje</h3>
   <form #miFormulario="ngForm" (ngSubmit)="onSubmit()" *ngIf="sesion" >
     <ion-item>
-      <ion-input labelPlacement="floating" label="Lugar de partida" required type="text" aria-label="Lugar de partida" debounce="200" [(ngModel)]="viaje.partida" name="inicio" (ionInput)="onSearchChange($event,'partida')" ></ion-input>
+      <ion-input labelPlacement="floating" label="Lugar de partida" required type="text" aria-label="Lugar de partida" debounce="200" [(ngModel)]="viaje.partida" name="inicio" readonly></ion-input>
     </ion-item>
     <!--Lista de Places API-->
     <ion-list *ngIf="partidaPlaces.length > 0 " >
@@ -52,18 +52,6 @@
       Crear viaje
     </ion-button>
   </form>
-
-<!-- 
-  <ion-card *ngIf="sesion.solicitado" >
-    <ion-card-header>
-      <ion-card-title>No se puede ofrecer viajes si ya hay uno en curso</ion-card-title>
-      <ion-card-subtitle></ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      
-    </ion-card-content>
-  </ion-card> -->
 
 
   <ng-template #conViaje>

@@ -35,7 +35,11 @@ export class FirestoreService {
     disponibles: 0,
     tarifa: 0,
     clientes: [],
-    estado: ''
+    estado: '',
+    lat_partida: 0,
+    lat_destino: 0,
+    lng_partida: 0,
+    lng_destino: 0,
   }
 
   path = '/usuario'
