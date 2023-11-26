@@ -44,16 +44,17 @@ export class ConductorViajePage implements OnInit {
       this.viajeid = params['viajeid'];
     });
 
-
-
-  }
-  ionViewWillLeave() {
-    this.cerrarModal();
   }
 
-  cerrarModal() {
-    this.modalController.dismiss();
+  async abrirModal() {
+    const modal = document.querySelector('ion-modal');
+      if (modal) {
+        modal.present();
+      };
   }
+
+
+
 
   async ngOnInit() {
     this.sesion = await this.storage.get('sesion')
@@ -130,21 +131,8 @@ export class ConductorViajePage implements OnInit {
 
 
 
-  // Como se extraen estos datos del storage a pesar de que la vista valida de que si esta el elemento, no alcanza a abrir
-  // el modal con los datos, por lo que despues de que carguen la información del storage se fuerza la visualización del 
-  // modal con los datos del viaje
-  ngAfterViewInit() {
-    this.route.queryParams.subscribe((params) => {
-      const modal = document.querySelector('ion-modal');
-      if (modal) {
-        modal.componentProps = {
-          viaje: this.viaje,
-        };
-        modal.present();
-      }
-    });
 
 
-
-  }
 }
+
+1
