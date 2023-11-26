@@ -18,3 +18,33 @@ ion-button{
 .button-inner{
     flex-flow: column;
 }
+
+
+
+
+.login-header {
+    background-color: #428cff;
+}
+
+.login-header::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: #428cff;
+    
+    border-bottom: 0;
+    margin-left: -15px;
+    margin-bottom: -15px;
+    }
+
+
+.logo-img {
+    display: block;
+    width: 120px;
+    margin:  auto;
+    text-align: center;
+}
