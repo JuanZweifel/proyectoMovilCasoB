@@ -1,36 +1,22 @@
-.div-fondo {
-  position: fixed; /* Fija el div en la ventana gráfica */
-  bottom: 0; /* Lo coloca en la parte inferior de la página */
-  width: 100%; /* Ajusta el ancho al 100% del ancho de la ventana gráfica */
-}
-
-.div-imagen {
+.cancelar {
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
 }
 
-ion-content {
-  overflow: hidden;
+ion-modal {
+  --height: 50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-
-.counter__section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+ion-modal::part(backdrop) {
+  background: rgba(209, 213, 219);
+  opacity: 1;
 }
 
-.block {
-  width: 100%;
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+ion-modal ion-toolbar {
+  --background: rgb(66 140 255);
+  --color: white;
 }
-
-// ion-modal {
-//   max-width: 90% !important;
-//   max-height: 90% !important;
-// }
