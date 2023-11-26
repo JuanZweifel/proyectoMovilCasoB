@@ -30,24 +30,23 @@ export class RecorridoPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.sesion = await this.storage.get('sesion')
+    this.sesion = await this.storage.get('sesion');
+  
     this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
-      // Aquí puedes utilizar el objeto del viaje obtenido por su ID
-      //console.log('Viaje por ID:', viaje);
       this.viaje = viaje;
       this.datosCargados = true;
-    });
+  
+      if (viaje.estado === 'Finalizado') {
 
-    if (this.viaje.estado = "Dispopnible") {
-      console.log("Se queda")
-    }
-    else if(this.viaje.estado = "Finalizado"){
-      this.presentAlert("El conductor finalizo el viaje")
-      this.router.navigate(["tabs/home"])
-    }
-    else {
-      this.router.navigate(["tabs/home"])
-    }
+        this.presentAlert("El viaje fue finalizado por el conductor")
+        this.sesion.solicitado = "";
+  
+        // Utiliza .then() en lugar de await para establecer el valor en el almacenamiento
+        this.storage.set("sesion", this.sesion).then(() => {
+          this.router.navigate(['tabs/home']);
+        });
+      }
+    });
   }
 
   volver() {

@@ -200,7 +200,7 @@ export class FirestoreService {
         const id = action.payload.id;
   
         // Verificar si el estado "solicitado" es igual a "disponible"
-        if (data && data.estado === 'Disponible') {
+        if (data) {
           return { id, ...data };
         } else {
           return null; // El viaje no está disponible o no existe

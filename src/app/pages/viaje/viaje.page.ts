@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IonModal, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-viaje',
@@ -21,7 +22,8 @@ export class ViajePage implements OnInit {
     private modalController: ModalController,
     private storage: Storage,
     private route: ActivatedRoute,
-    private firestoreService: FirestoreService) { 
+    private firestoreService: FirestoreService,
+    private alertController:AlertController) { 
 
       this.route.queryParams.subscribe(params => {
         this.viajeid = params['viajeid'];
@@ -33,7 +35,12 @@ export class ViajePage implements OnInit {
       // Aquí puedes utilizar el objeto del viaje obtenido por su ID
       //console.log('Viaje por ID:', viaje);
       this.viaje = viaje;
+      if (viaje.estado === 'Finalizado') {
+        this.presentAlert("El viaje fue finalizado por el conductor")
+        this.router.navigate(['tabs/home']);
+      }
     });
+    
     this.sesion = await this.storage.get('sesion')
   }
 
@@ -117,6 +124,19 @@ export class ViajePage implements OnInit {
         modal.present();
       }
     });
+  }
+
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      subHeader: 'Información',
+      message: message,
+      buttons: ['OK'],
+      backdropDismiss: false,
+
+    });
+
+    await alert.present();
   }
 
 }
