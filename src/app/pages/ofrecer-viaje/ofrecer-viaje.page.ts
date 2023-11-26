@@ -62,6 +62,10 @@ export class OfrecerViajePage implements OnInit {
     this.sesion = await this.storage.get('sesion')
   }
 
+  async ionViewDidEnter(){
+    this.sesion = await this.storage.get('sesion');
+  }
+
   async onSearchChange(event: any, inputType: 'partida' | 'destino') {
     console.log(event)
     this.searchQuery = event.detail.value
@@ -203,7 +207,8 @@ export class OfrecerViajePage implements OnInit {
     this.router.navigate(['/' + ruta])
   }
 
-  ngOnDestroy(): void {
+  async ngOnDestroy(){
     if (this.placesSub) this.placesSub.unsubscribe();
+    this.sesion = await this.storage.get('sesion')
   }
 }
