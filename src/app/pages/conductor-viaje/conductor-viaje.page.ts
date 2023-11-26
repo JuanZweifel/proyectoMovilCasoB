@@ -165,7 +165,6 @@ export class ConductorViajePage implements OnInit {
           lng: this.viaje.lng_destino,
         },
         title: 'Destino',
-        draggable: true
       }
   
       
