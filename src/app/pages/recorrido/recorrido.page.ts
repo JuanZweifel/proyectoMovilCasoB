@@ -27,6 +27,12 @@ export class RecorridoPage implements OnInit {
       this.viajeid = params['viajeid'];
     });
   }
+  ionViewWillLeave() {
+    if (this.map) {
+      this.map.destroy();
+    }
+
+  }
 
   async ngOnInit() {
     this.sesion = await this.storage.get('sesion');

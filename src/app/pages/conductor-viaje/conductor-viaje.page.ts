@@ -55,6 +55,13 @@ export class ConductorViajePage implements OnInit {
       };
   }
 
+  ionViewWillLeave() {
+    if (this.map) {
+      this.map.destroy();
+    }
+
+  }
+
 
 
 

@@ -58,7 +58,10 @@ export class ViajePage implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.cerrarModal();
+    if (this.map) {
+      this.map.destroy();
+    }
+
   }
 
   cerrarModal() {
@@ -139,7 +142,8 @@ export class ViajePage implements OnInit {
     mapRef!: ElementRef<HTMLElement>;
     map!: GoogleMap
   
-  
+
+
     async createMap() {
       this.map = await GoogleMap.create({
         id: 'my-map', // Unique identifier for this map instance

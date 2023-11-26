@@ -40,3 +40,12 @@ capacitor-google-map {
     width: 100%;
     z-index: 999; /* Ajusta según sea necesario para que esté por encima del contenido */
   }
+
+
+  ion-content {
+    --background: transparent;
+  }
+  
+  body {
+    background: transparent;
+  }
