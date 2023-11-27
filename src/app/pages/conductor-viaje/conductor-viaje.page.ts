@@ -66,6 +66,10 @@ export class ConductorViajePage implements OnInit {
 
 
   async ngOnInit() {
+
+  }
+
+  async ionViewDidEnter(){
     this.sesion = await this.storage.get('sesion')
     await this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
       // Aquí puedes utilizar el objeto del viaje obtenido por su ID
@@ -73,9 +77,6 @@ export class ConductorViajePage implements OnInit {
       this.viaje = viaje;
       this.datosCargados = true;
     });
-  }
-
-  ionViewDidEnter(){
     this.createMap();
   }
 
