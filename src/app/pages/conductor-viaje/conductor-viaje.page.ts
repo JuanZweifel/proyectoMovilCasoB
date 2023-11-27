@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage-angular';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -55,11 +56,10 @@ export class ConductorViajePage implements OnInit {
       };
   }
 
-  ionViewWillLeave() {
+  ionViewDidLeave(){
     if (this.map) {
       this.map.destroy();
     }
-
   }
 
 
@@ -69,15 +69,24 @@ export class ConductorViajePage implements OnInit {
 
   }
 
-  async ionViewDidEnter(){
-    this.sesion = await this.storage.get('sesion')
+  async ionViewWillEnter(){
     await this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
       // Aquí puedes utilizar el objeto del viaje obtenido por su ID
       console.log('Viaje por ID:', viaje);
       this.viaje = viaje;
       this.datosCargados = true;
     });
+    this.sesion = await this.storage.get('sesion')
     this.createMap();
+  }
+
+  async ionViewDidEnter(){
+    await this.map.setCamera({
+      coordinate: {
+        lat: this.viaje.lat_destino,
+        lng: this.viaje.lng_destino
+      }
+    });
   }
 
   async onClick() {
@@ -178,7 +187,6 @@ export class ConductorViajePage implements OnInit {
       
       await this.map.addMarker(marker);
     }
-
 
 
 }
