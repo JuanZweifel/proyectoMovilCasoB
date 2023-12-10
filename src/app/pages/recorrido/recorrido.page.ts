@@ -1,5 +1,5 @@
 import { Storage } from '@ionic/storage-angular';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Query, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GoogleMap, Marker } from '@capacitor/google-maps';
 import { ActivatedRoute } from '@angular/router';
@@ -19,6 +19,7 @@ export class RecorridoPage implements OnInit {
   viaje: any
   datosCargados: boolean = false;
   nuevaListaCorreos: string[] = []
+  viajeSubscription: any;
 
 
   constructor(private router: Router, private storage: Storage, private route: ActivatedRoute,
@@ -27,35 +28,48 @@ export class RecorridoPage implements OnInit {
       this.viajeid = params['viajeid'];
     });
   }
-  ionViewWillLeave() {
-    if (this.map) {
-      this.map.destroy();
-    }
-
+  
+  
+  ionViewDidEnter(){
+    this.createMap();
+    
   }
 
   async ngOnInit() {
     this.sesion = await this.storage.get('sesion');
-  
-    this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
+
+    this.viajeSubscription = this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
       this.viaje = viaje;
       this.datosCargados = true;
-  
-      if (viaje.estado === 'Finalizado') {
 
-        this.presentAlert("El viaje fue finalizado por el conductor")
+      // Puedes realizar la lógica aquí o llamar a otro método
+      if (this.viaje.estado === 'Finalizado') {
+        console.log("LLEGUE AL FINALIZADO");
+        this.presentAlert("El viaje fue finalizado por el conductor");
+        console.log("PASE EL PRESENT ALTERT");
         this.sesion.solicitado = "";
-  
-        // Utiliza .then() en lugar de await para establecer el valor en el almacenamiento
-        this.storage.set("sesion", this.sesion).then(() => {
-          this.router.navigate(['tabs/home']);
-        });
+        this.storage.set("sesion", this.sesion)
+        this.router.navigate(['tabs/home']);
       }
     });
   }
 
-  ionViewDidEnter(){
-    this.createMap();
+  ionViewWillLeave() {
+    if (this.map) {
+      this.map.destroy();
+    }
+    // Cancelar la suscripción al salir de la página
+    if (this.viajeSubscription) {
+      this.viajeSubscription.unsubscribe();
+      this.viajeSubscription = null;
+    }
+  }
+  
+  ngOnDestroy() {
+    // Cancelar la suscripción al salir del componente
+    if (this.viajeSubscription) {
+      this.viajeSubscription.unsubscribe();
+    }
   }
 
   async abrirModal() {
@@ -111,6 +125,10 @@ export class RecorridoPage implements OnInit {
     console.log(this.viajeid)
   }
 
+  private handleFinalizado() {
+    
+  }
+
 
   async presentAlert(message: string) {
     const alert = await this.alertController.create({
@@ -162,4 +180,8 @@ export class RecorridoPage implements OnInit {
       
       await this.map.addMarker(marker);
     }
+
+
+
+    
 }

@@ -19,6 +19,7 @@ export class ViajePage implements OnInit {
   sesion: any
   asientos: any
   lista: string[] = []
+  viajeSubscription: any;
 
   constructor(private router: Router,
     private modalController: ModalController,
@@ -40,7 +41,7 @@ export class ViajePage implements OnInit {
     }
 
   async ngOnInit() {
-    this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
+    this.viajeSubscription = this.firestoreService.getViajePorId(this.viajeid).subscribe((viaje: any) => {
       // Aquí puedes utilizar el objeto del viaje obtenido por su ID
       //console.log('Viaje por ID:', viaje);
       this.viaje = viaje;
@@ -60,6 +61,10 @@ export class ViajePage implements OnInit {
   ionViewWillLeave() {
     if (this.map) {
       this.map.destroy();
+    }
+    if (this.viajeSubscription) {
+      this.viajeSubscription.unsubscribe();
+      this.viajeSubscription = null;
     }
 
   }

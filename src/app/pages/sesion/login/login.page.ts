@@ -73,7 +73,8 @@ export class LoginPage implements OnInit {
         this.router.navigate(['/tabs/perfil']);
       }
       else{
-        this.presentAlert('No hay conexion a internet');
+        this.presentAlert('No hay conexion a internet, redirigiendo a perfil');
+        this.router.navigate(['/tabs/perfil']);
       }
 
       // Si hay datos de usuario en el almacenamiento, intenta iniciar sesión automáticamente.

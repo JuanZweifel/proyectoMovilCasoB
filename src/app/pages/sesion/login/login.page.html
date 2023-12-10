@@ -17,10 +17,10 @@
       </ion-item>
       <div *ngIf="this.loginForm.controls['email'].touched && this.loginForm.controls['email'].invalid">
         <ion-text color="primary" *ngIf="errorControl['email'].errors?.['required']">
-          email is required
+          Ingrese su correo
         </ion-text>
         <ion-text color="primary" *ngIf="errorControl['email'].errors?.['pattern']">
-          email invalid
+          Correo invalido
         </ion-text>
       </div>
 
@@ -32,10 +32,10 @@
       </ion-item>
       <div *ngIf="this.loginForm.controls['password'].touched && this.loginForm.controls['password'].invalid">
         <ion-text color="primary" *ngIf="errorControl['password'].errors?.['required']">
-          password is required
+          Ingrese una contraseña
         </ion-text>
         <ion-text color="primary" *ngIf="errorControl['password'].errors?.['pattern']">
-          password invalid
+          Contraseña invalida
         </ion-text>
       </div>
 
