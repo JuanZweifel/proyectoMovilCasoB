@@ -1,53 +1,87 @@
-<ion-content>
-  <ion-img src="https://cdn.dribbble.com/users/914217/screenshots/4506553/media/66b3d16f627edc27b44c023e4ec40b28.gif"></ion-img>
-  <ion-list>
-        <ion-item>
-          <ion-label>
-            <h2>Destino: #Los copihues 5648</h2>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <h2>Tarifa: $4.000</h2>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>Asientos disponibles:</ion-label>
-          <ion-label position="fixed">2</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
-          </ion-avatar>
-          <ion-label>
-            <h2>John Doe</h2>
-            <p>Connor Smith</p>
-          </ion-label>
-          <ion-button (click)="presentAlert()" expand="block" fill="solid" shape="round" color="tertiary">
-            Cancelar
-          </ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
-          </ion-avatar>
-          <ion-label>
-            <h2>John Doe</h2>
-            <p>Connor Smith</p>
-          </ion-label>
-          <ion-button (click)="presentAlert()" expand="block" fill="solid" shape="round" color="tertiary">
-            Cancelar
-          </ion-button>
-        </ion-item>
-        
-      </ion-list>
-      <ion-button id="present-alert" expand="full" shape="round" color="danger" class="cancelar">
-        Cancelar viaje
-      </ion-button>
+<ion-header>
 
-      <ion-alert
-        trigger="present-alert"
-        header="¿Estar seguro?"
-        [buttons]="alertButtons"
-      ></ion-alert>
+</ion-header>
+
+<ion-content>
+  <ion-fab slot="fixed" vertical="top" horizontal="left" class="ion-padding" (click)="volver()">
+    <ion-fab-button>
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <capacitor-google-map #map></capacitor-google-map>
+
+  <div class="div-fondo down" *ngIf="viaje">
+    <ion-list>
+      <ion-item>
+        <ion-label>
+          <h2>Destino: #{{viaje.destino}}</h2>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Asientos restantes: {{viaje.disponibles}} | Patente: {{viaje.patente}}</h2>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Tarifa: ${{viaje.tarifa}}</h2>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-img src="https://cdn.discordapp.com/attachments/1104853389877190766/1178407489788715131/conductor.png?ex=6576087f&is=6563937f&hm=7ed9fbfe5ee2723fb019f9beae4756f9f2674b0e22cf9c39d10fe221b2e389f8&"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2>Conductor</h2>
+          <p>{{viaje.chofer}}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar class="ion-margin-end">
+          <img src="https://cdn.discordapp.com/attachments/1104853389877190766/1178408754505601205/seguidores.png?ex=657609ac&is=656394ac&hm=49b1f8b4e47ff64204ded98f738ce28b11703363f5b40ef5f1c8c40c3f77b79b&" />
+        </ion-avatar>
+        <ion-button id="open-modal" (click)="abrirModal()" expand="block">Ver pasajeros</ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-button (click)="onClick()" expand="block" shape="round" class="ion-padding" style="width: 100%;">
+          Finalizar Viaje
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+
+
+  <ion-modal #modal trigger="open-modal">
+    <ng-template>
+      <ion-content>
+        <ion-toolbar>
+          <ion-title>Pasajeros</ion-title>
+          <ion-buttons slot="end">
+            <ion-button color="light" (click)="modal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+        <ion-text *ngIf="viaje.clientes && viaje.clientes.length === 0">
+          <h1 class="ion-margin-start">No hay pasajeros registrados</h1>
+        </ion-text>
+        <ion-item *ngFor="let cliente of viaje.clientes">
+          <ion-avatar slot="start">
+            <ion-img src="https://cdn.discordapp.com/attachments/1104853389877190766/1178407907910488074/pasajero_1.png?ex=657608e3&is=656393e3&hm=7e8aa6b85bf3e135165e9f169ead7b1c8d7e002d49ffe31ff64eaf40b6f1f14d&"></ion-img>
+          </ion-avatar>
+          <ion-label>
+            <p>{{ cliente }}</p>
+          </ion-label>
+        </ion-item>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  
+
+
 </ion-content>

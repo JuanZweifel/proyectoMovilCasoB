@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "proyectomovil-60129": {
+      "hosting": {
+        "app": [
+          "proyectomovil-60129"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "proyectomovil-60129"
+  }
+}

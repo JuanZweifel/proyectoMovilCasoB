@@ -1,0 +1,29 @@
+<ion-header>
+  <div class="login-header ion-padding">
+    <img src="https://cdn.discordapp.com/attachments/1104853389877190766/1178093780226822336/an_transport_car.png?ex=6574e455&is=65626f55&hm=107a5955e87c052ef925bfd471c42cf1d88c6f377be8239e5834fc97c612a11d&" alt="" class="logo-img">
+  </div>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-fab-button class="ion-padding" (click)="volver()">
+    <ion-icon name="arrow-back"></ion-icon>
+  </ion-fab-button>
+  <ion-title>Ultimo viaje pedido</ion-title>
+  <br>
+  <ion-list *ngIf="viajeSelect" >
+  <ion-item>
+    <ion-label>Patente: {{viajeSelect.patente}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Chofer: {{viajeSelect.chofer}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Partida: {{viajeSelect.partida}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Destino: {{viajeSelect.destino}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Tarifa: {{viajeSelect.tarifa}}</ion-label>
+  </ion-item>
+</ion-list>
+</ion-content>
